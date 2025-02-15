@@ -12,7 +12,7 @@ public class LevelLoader : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.instance.OnEnemiesDestroyed += LoadNextScene;
+        //GameManager.instance.OnEnemiesDestroyed += LoadNextScene;
     }
 
     private void Awake()
@@ -26,8 +26,6 @@ public class LevelLoader : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     #endregion
-
-    //public static Action OnSceneChange;
 
     public void LoadNextScene()
     {
@@ -58,6 +56,6 @@ public class LevelLoader : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.instance.OnEnemiesDestroyed -= LoadNextScene;
+        //GameManager.instance.OnEnemiesDestroyed -= LoadNextScene;
     }
 }

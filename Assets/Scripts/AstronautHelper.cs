@@ -10,15 +10,15 @@ public class AstronautHelper : MonoBehaviour
 
     Text myText;
     Canvas canvas;
-    //Player player;
 
     int textIndex = 0;
     int amountOfTexts;
 
     bool canPressContinue = true;
+
     void OnEnable()
     {
-        //InGameHelper.instance.onNewPlayer += OnNewPlayer;
+        GameManager.instance.OnEnemiesDestroyed += ShowNewText;
     }
 
     void Awake()
@@ -36,51 +36,48 @@ public class AstronautHelper : MonoBehaviour
 
     void Start()
     {
-        /*
-        player = InGameHelper.instance.GetPlayer();
-
-        if (!player)
-        {
-            Debug.LogError("[AsteroidHelper::Start] Player not found!");
-            return;
-        }
-
-        player.onSpacePressed += OnContinuePressed;*/
         amountOfTexts = texts.Length;
 
         CheckForText(textIndex);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !canPressContinue)
+        {
+            canPressContinue = true;
+            OnContinuePressed();
+            return;
+        }
+        canPressContinue = false;
+    }
+
     public void ShowNewText()
     {
+        Debug.Log("[AsteroidHelper::ShowNewText] Showing new text");
         textIndex++;
         CheckForText(textIndex);
     }
-    /*
-    void OnNewPlayer(Player newPlayer)
-    {
-        player = newPlayer;
-    }*/
 
     void CheckForText(int index)
     {
-        Debug.Log("checking index = " + index);
         // if there is no text, disable canvas, otherwise show the first text
         if (!IsValidIndex(index))
         {
-            Debug.Log("[AsteroidHelper::CheckForText] Index is not valid");
+            Debug.Log("[AsteroidHelper::CheckForText] Index is not valid, loading next scene");
+            LevelLoader.instance.LoadNextScene();
             return;
         }
 
         if (texts[index].Length == 0)
         {
             Time.timeScale = 1;
-            canvas.enabled = false;
+            canvas.gameObject.SetActive(false);
             return;
         }
 
         Time.timeScale = 0;
-        canvas.enabled = true;
+        canvas.gameObject.SetActive(true);
         myText.text = texts[index];
 
         textIndex++;
@@ -92,7 +89,7 @@ public class AstronautHelper : MonoBehaviour
 
         return isValid;
     }
-    //rebuild this for any key and on key release activate canContinue bool
+
     void OnContinuePressed()
     {
         if (canvas.enabled)
@@ -101,25 +98,8 @@ public class AstronautHelper : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.anyKeyDown && !canPressContinue)
-        {
-            canPressContinue = true;
-            OnContinuePressed();
-            return;
-        }
-        canPressContinue = false;
-    }
-
     void OnDisable()
     {
-        /*
-        InGameHelper.instance.onNewPlayer -= OnNewPlayer;
-        
-        if (player)
-        {
-            player.onSpacePressed -= OnContinuePressed;
-        }*/
+        GameManager.instance.OnEnemiesDestroyed -= ShowNewText;
     }
 }

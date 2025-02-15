@@ -489,6 +489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningObjects:
   - {fileID: 5914724794466449773, guid: dc82e49ce164aa7468d9533f748cc36e, type: 3}
+  - {fileID: 2802767244881598225, guid: b942d3d77935b1f40955fd45e3ca8493, type: 3}
   spawnPoints:
   - {fileID: 3673879202683959708}
   - {fileID: 1906434025962786263}
@@ -496,8 +497,9 @@ MonoBehaviour:
   - {fileID: 3374403638625533507}
   - {fileID: 7938105747179190597}
   wantedNumberOfEnemies: 6
+  spawnRoutineOnStart: 0
   spawnRandomObject: 1
-  spawnOnRandomPoint: 1
+  spawnOnRandomPoint: 0
   minSpawnTime: 2
   maxSpawnTime: 5
 --- !u!1 &4555910268597111252
@@ -692,7 +694,8 @@ MonoBehaviour:
   - {fileID: 2660637716822860568}
   - {fileID: 8199635261717483032}
   wantedNumberOfEnemies: 9
-  spawnRandomObject: 0
+  spawnRoutineOnStart: 0
+  spawnRandomObject: 1
   spawnOnRandomPoint: 0
   minSpawnTime: 5
   maxSpawnTime: 10
@@ -913,6 +916,7 @@ MonoBehaviour:
   - {fileID: 7430083532126340607}
   - {fileID: 2345644636691080566}
   wantedNumberOfEnemies: 2147483647
+  spawnRoutineOnStart: 0
   spawnRandomObject: 1
   spawnOnRandomPoint: 1
   minSpawnTime: 0.5

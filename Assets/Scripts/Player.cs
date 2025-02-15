@@ -32,10 +32,16 @@ public class Player : SpaceshipBase
 
         playersAttributeComponent.OnZeroHealth += ZeroHealth;
     }
+    protected override void Start()
+    {
+        base.Start();
+
+        HandleThrustAudio(false);
+    }
 
     void Update()
     {
-        if (disabledMovement)
+        if (disabledMovement || Time.timeScale == 0)
         {
             return;
         }
@@ -110,6 +116,18 @@ public class Player : SpaceshipBase
         disabledMovement = isAbandoned;
         playersAttributeComponent.SetIsImmortal(isAbandoned);
         HandleThrustAudio(false);
+    }
+
+    public void ChangeShip(Player newShip)
+    {
+        SetIsAbandoned(true);
+        SetCollision(false);
+        newShip.SetIsAbandoned(false);
+    }
+
+    public void SetCollision(bool value)
+    {
+        myCollider.enabled = value;
     }
 
     void HandleThrustAudio(bool isMovingForward)

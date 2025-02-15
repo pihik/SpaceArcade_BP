@@ -45,7 +45,8 @@ public class Spawner : MonoBehaviour
     {
         while (spawnedObjects <= wantedNumberOfEnemies)
         {
-            SpawnObject(spawningObjects[GetObjectIndex()], spawnPoints[GetSpawnIndex()].transform.position);
+            Vector3 spawnPos = EnsureInScreenBounds(spawnPoints[GetSpawnIndex()].transform.position);
+            SpawnObject(spawningObjects[GetObjectIndex()], spawnPos);
 
             yield return new WaitForSeconds(GetNextSpawnTime());
         }
@@ -55,7 +56,7 @@ public class Spawner : MonoBehaviour
 
     protected void SpawnObject(GameObject obj, Vector3 position)
     {
-        GameObject asteroid = Instantiate(obj, position, Quaternion.identity);
+        Instantiate(obj, position, Quaternion.identity);
         spawnedObjects++;
     }
 
@@ -129,5 +130,15 @@ public class Spawner : MonoBehaviour
     {
         GameManager.instance.StartSpawning -= StartSpawning;
         GameManager.instance.StopSpawning -= StopSpawning;
+    }
+
+    Vector3 EnsureInScreenBounds(Vector3 worldPosition)
+    {
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(worldPosition);
+
+        screenPos.x = Mathf.Clamp(screenPos.x, 0.05f, 0.95f);
+        screenPos.y = Mathf.Clamp(screenPos.y, 0.05f, 0.95f);
+
+        return Camera.main.ViewportToWorldPoint(screenPos);
     }
 }

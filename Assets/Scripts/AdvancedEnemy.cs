@@ -15,6 +15,8 @@ public class AdvancedEnemy : Enemy
 
     protected override void Start()
     {
+        base.Start();
+
         playerTransform = InGameHelper.instance.GetPlayer().transform;
 
         if (!playerTransform)

@@ -8,7 +8,8 @@ public abstract class SpaceshipBase : MonoBehaviour
     protected ParticleSystem explosionEffect;
     protected Gun[] guns;
 
-    Collider2D myCollider;
+    protected Collider2D myCollider;
+    protected SpriteRenderer myRenderer;
 
     protected virtual void Awake()
     {
@@ -16,12 +17,13 @@ public abstract class SpaceshipBase : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
         guns = GetComponentsInChildren<Gun>();
         explosionEffect = GetComponentInChildren<ParticleSystem>();
+        myRenderer = GetComponent<SpriteRenderer>();
 
         myCollider.isTrigger = true;
 
-        if (!myCollider || !explosionEffect)
+        if (!myCollider || !explosionEffect || !myRenderer)
         {
-            Debug.LogError("[SpaceshipBase::Awake] Collider or explosion effect not found on the object: " + gameObject.name);
+            Debug.LogError("[SpaceshipBase::Awake] Something went wrong on the object: " + gameObject.name);
             return;
         }
 

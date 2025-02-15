@@ -23,6 +23,11 @@ public class AbandonedShip : MonoBehaviour
         transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
     }
 
+    void InitializeValues()
+    {
+
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         int collisionLayerIndex = collision.gameObject.layer;
@@ -40,8 +45,7 @@ public class AbandonedShip : MonoBehaviour
 
     public void NewShipActivation() //this will called after pressing agreed button on UI
     {
-        oldPlayer.SetIsAbandoned(true);
-        playerScript.SetIsAbandoned(false);
+        oldPlayer.ChangeShip(playerScript);
 
         AstronautHelper instanceOfAH = AstronautHelper.instance;
         if (instanceOfAH)
