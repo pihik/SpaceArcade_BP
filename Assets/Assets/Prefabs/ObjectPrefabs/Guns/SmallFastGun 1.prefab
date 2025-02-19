@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7653112962636811284}
   - component: {fileID: 8694559525749795298}
   m_Layer: 7
-  m_Name: SmallGun
+  m_Name: SmallFastGun 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zOffset: 0
   gunType: 2
-  fireRate: 0.5
+  fireRate: 0.3
   isActive: 1
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
 --- !u!212 &7653112962636811284
@@ -118,6 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b171f605b5e8c742a5899c60bbb959c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 6019779510196939762, guid: 917686312689b5a4b9d9875004226687,
+  objectPrefab: {fileID: 6019779510196939762, guid: be4d15d7ae447984797b3a724ba00caf,
     type: 3}
   poolSize: 10

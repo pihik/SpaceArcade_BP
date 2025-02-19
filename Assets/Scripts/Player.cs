@@ -84,12 +84,23 @@ public class Player : SpaceshipBase
 
     public void AddGun()
     {
+        bool allGunsActivated = true;
+
         foreach (Gun gun in guns)
         {
             if (!gun.IsActivate())
             {
                 gun.ActiveSwitch(true);
+                allGunsActivated = false;
                 break;
+            }
+        }
+
+        if (allGunsActivated)
+        {
+            foreach (Gun gun in guns)
+            {
+                gun.IncreaseFireRate(0.1f);
             }
         }
     }

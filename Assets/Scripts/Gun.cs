@@ -9,6 +9,9 @@ public class Gun : MonoBehaviour
     [Header("Gun References")]
     [SerializeField] float zOffset;
 
+    [Header("Gun Type")]
+    [SerializeField] GunType gunType;
+
     [Header("Gun Properties")]
     [SerializeField] float fireRate = 0.5f;
     [SerializeField] bool isActive = true;
@@ -101,4 +104,17 @@ public class Gun : MonoBehaviour
     {
         return isActive;
     }
+
+    public GunType GetGunType()
+    {
+        return gunType;
+    }    
+
+    public void IncreaseFireRate(float value) // ah it's flipped, so we actually need to decrease the fire rate
+    {
+        float newFireRate = fireRate - value;
+        
+        fireRate = (newFireRate < 0) ? 0 : newFireRate;
+    }
 }
+public enum GunType { Laser, Missile, Bullet, Plasma }

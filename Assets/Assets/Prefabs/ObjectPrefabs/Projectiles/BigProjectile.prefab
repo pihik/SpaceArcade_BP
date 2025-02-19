@@ -133,7 +133,7 @@ MonoBehaviour:
   damage: 3
   projectileType: 2
   speed: 10
-  timeToDestroy: 2
+  timeToDestroy: 3
 --- !u!58 &8072717565690720198
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -224,14 +224,14 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.03
-        inSlope: 0
-        outSlope: 0
+        time: 0.0017776489
+        value: 0.06829956
+        inSlope: 0.40312636
+        outSlope: 0.40312636
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.08734559
       - serializedVersion: 3
         time: 1
         value: 0

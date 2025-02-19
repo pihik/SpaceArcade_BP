@@ -308,6 +308,7 @@ MonoBehaviour:
   SFXSource: {fileID: 7069081626453626951}
   backgroundMainMenuAudio: {fileID: 8300000, guid: 363a195868ebf2148a114abd6b23aabd,
     type: 3}
+  backgroundGameAudio: {fileID: 8300000, guid: 030f4b1b918a36344b9d1d45a9b18ca1, type: 3}
   buttonsSFX: {fileID: 8300000, guid: 94df2baa0b3d0c44286e905aa7966e37, type: 3}
   explosionSFX: {fileID: 8300000, guid: 4839733e6838d9f45af64bd79f6b9e53, type: 3}
   asteroidDestructionSFX: {fileID: 8300000, guid: 350c8922e04aafd4ab909a7e5f4c2f5f,

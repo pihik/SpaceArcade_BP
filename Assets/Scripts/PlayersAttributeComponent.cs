@@ -23,4 +23,16 @@ public class PlayersAttributeComponent : AttributeComponent
         healthAmount++;
         OnHealthChange?.Invoke(healthAmount);
     }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+
+        int collisionLayerIndex = collision.gameObject.layer;
+
+        if ((InGameHelper.instance.GetEnemyLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex)
+        {
+            HealthDecrease(3, true);
+        }
+    }
 }

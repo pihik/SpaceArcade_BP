@@ -285,4 +285,4 @@ MonoBehaviour:
   damage: 1
   projectileType: 2
   speed: 20
-  timeToDestroy: 1
+  timeToDestroy: 1.5

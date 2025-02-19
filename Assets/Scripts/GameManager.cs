@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     int numberOfEnemies;
     int scoreAmount = 0;
 
-    public void SetScoreAmount(int scoreAmount)
+    public void SetScore(int scoreAmount)
     {
         this.scoreAmount = scoreAmount;
     }
@@ -53,13 +53,12 @@ public class GameManager : MonoBehaviour
     public void DecreaseNumberOfEnemies()
     {
         numberOfEnemies--;
-        if (Time.timeScale == 0)
-        {
-            return;
-        }
 
+        Debug.Log("Number of enemies: " + numberOfEnemies);
+        
         if (numberOfEnemies <= 0)
         {
+            Debug.Log("All enemies destroyed!");
             OnEnemiesDestroyed?.Invoke();
         }
     }

@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] protected SpawnPoint[] spawnPoints;
 
     [Tooltip("How many enemies should be spawned")]
-    [SerializeField] protected int wantedNumberOfEnemies = int.MaxValue;
+    [SerializeField] protected int spawnLimit = int.MaxValue;
 
     [SerializeField] bool spawnRoutineOnStart = true;
     [SerializeField] bool spawnRandomObject = true;
@@ -43,7 +43,7 @@ public class Spawner : MonoBehaviour
 
     virtual protected IEnumerator SpawnRoutine()
     {
-        while (spawnedObjects <= wantedNumberOfEnemies)
+        while (spawnedObjects <= spawnLimit)
         {
             Vector3 spawnPos = EnsureInScreenBounds(spawnPoints[GetSpawnIndex()].transform.position);
             SpawnObject(spawningObjects[GetObjectIndex()], spawnPos);

@@ -18,7 +18,7 @@ public class AstronautHelper : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.instance.OnEnemiesDestroyed += ShowNewText;
+        GameManager.instance.OnEnemiesDestroyed += ShowLastTexts;
     }
 
     void Awake()
@@ -38,7 +38,7 @@ public class AstronautHelper : MonoBehaviour
     {
         amountOfTexts = texts.Length;
 
-        CheckForText(textIndex);
+        CheckForText();
     }
 
     void Update()
@@ -54,22 +54,34 @@ public class AstronautHelper : MonoBehaviour
 
     public void ShowNewText()
     {
-        Debug.Log("[AsteroidHelper::ShowNewText] Showing new text");
         textIndex++;
-        CheckForText(textIndex);
+        CheckForText();
     }
 
-    void CheckForText(int index)
+    void ShowLastTexts() // it can be also handled through ShowNextText, but this is safer in case of different events
+    {
+        for (int i = amountOfTexts - 1; i >= 0; i--)
+        {
+            if (texts[i].Length == 0) // if we found empty text from end to start, that means we found end level texts
+            {
+                textIndex = ++i;
+                CheckForText();
+                break;
+            }
+        }
+    }
+
+    void CheckForText()
     {
         // if there is no text, disable canvas, otherwise show the first text
-        if (!IsValidIndex(index))
+        if (!IsValidIndex(textIndex))
         {
             Debug.Log("[AsteroidHelper::CheckForText] Index is not valid, loading next scene");
             LevelLoader.instance.LoadNextScene();
             return;
         }
 
-        if (texts[index].Length == 0)
+        if (texts[textIndex].Length == 0)
         {
             Time.timeScale = 1;
             canvas.gameObject.SetActive(false);
@@ -78,7 +90,7 @@ public class AstronautHelper : MonoBehaviour
 
         Time.timeScale = 0;
         canvas.gameObject.SetActive(true);
-        myText.text = texts[index];
+        myText.text = texts[textIndex];
 
         textIndex++;
     }
@@ -94,12 +106,12 @@ public class AstronautHelper : MonoBehaviour
     {
         if (canvas.enabled)
         {
-            CheckForText(textIndex);
+            CheckForText();
         }
     }
 
     void OnDisable()
     {
-        GameManager.instance.OnEnemiesDestroyed -= ShowNewText;
+        //GameManager.instance.OnEnemiesDestroyed -= ShowLastTexts;
     }
 }

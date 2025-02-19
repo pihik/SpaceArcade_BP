@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AdvancedEnemy : Enemy
 {
-    [SerializeField] float speed = 3f;
+    [SerializeField] float rotatingSpeed = 3f;
 
-    Transform playerTransform;
+    protected Transform playerTransform;
 
     void OnEnable()
     {
@@ -25,7 +25,7 @@ public class AdvancedEnemy : Enemy
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
         RotateToTarget();
     }
@@ -35,13 +35,13 @@ public class AdvancedEnemy : Enemy
         playerTransform = newPlayer.transform;
     }
 
-    void RotateToTarget()
+    protected void RotateToTarget()
     {
         Vector3 direction = playerTransform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 
         Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * speed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * rotatingSpeed);
     }
 
     void OnDisable()

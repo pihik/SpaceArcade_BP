@@ -10,6 +10,7 @@ public abstract class SpaceshipBase : MonoBehaviour
 
     protected Collider2D myCollider;
     protected SpriteRenderer myRenderer;
+    protected Rigidbody2D myRigidbody;
 
     protected virtual void Awake()
     {
@@ -18,14 +19,16 @@ public abstract class SpaceshipBase : MonoBehaviour
         guns = GetComponentsInChildren<Gun>();
         explosionEffect = GetComponentInChildren<ParticleSystem>();
         myRenderer = GetComponent<SpriteRenderer>();
+        myRigidbody = GetComponent<Rigidbody2D>();
 
-        myCollider.isTrigger = true;
-
-        if (!myCollider || !explosionEffect || !myRenderer)
+        if (!myCollider || !explosionEffect || !myRenderer || !myRigidbody)
         {
             Debug.LogError("[SpaceshipBase::Awake] Something went wrong on the object: " + gameObject.name);
             return;
         }
+
+        myRigidbody.gravityScale = 0;
+        myCollider.isTrigger = true;
 
         if (guns.Length == 0)
         {

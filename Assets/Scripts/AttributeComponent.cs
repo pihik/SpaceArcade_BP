@@ -12,16 +12,18 @@ public class AttributeComponent : MonoBehaviour
     [SerializeField] protected int healthAmount = 3;
 
     Shield shield;
+    SpriteRenderer spriteRenderer;
 
     bool isImmortal = false;
 
     void Awake()
     {
         shield = GetComponentInChildren<Shield>();
-        
-        if (shield == null)
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (!shield || !spriteRenderer)
         {
-            Debug.LogError("Shield component not found");
+            Debug.LogError("[AttributeComponent::Awake] Somethings wrong on: " + name);
         }
     }
 
@@ -36,6 +38,7 @@ public class AttributeComponent : MonoBehaviour
         {
             healthAmount -= amount;
 
+            StartCoroutine(ChangeColorForSplitSecond());
             if (healthAmount <= 0)
             {
                 healthAmount = 0;
@@ -50,7 +53,7 @@ public class AttributeComponent : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Projectile>(out Projectile projectileComp))
         {
@@ -64,6 +67,13 @@ public class AttributeComponent : MonoBehaviour
         {
             HealthDecrease(1, true);
         }
+    }
+
+    IEnumerator ChangeColorForSplitSecond()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
     }
 
     public Shield GetShieldComponent()

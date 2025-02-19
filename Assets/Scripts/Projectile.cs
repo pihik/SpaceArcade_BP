@@ -11,7 +11,6 @@ public class Projectile : MonoBehaviour
     Shoot_ObjectPool shootingObjectPool;
 
     [SerializeField] int damage = 1;
-    [SerializeField] ProjectileType projectileType; // TODO functionality
     [SerializeField] float speed = 300f;
     [SerializeField] float timeToDestroy = 1f;
 
@@ -68,4 +67,3 @@ public class Projectile : MonoBehaviour
         return damage;
     }
 }
-enum ProjectileType { Laser, Rocket, Bullet }

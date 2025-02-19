@@ -13,7 +13,7 @@ public class Enemy : SpaceshipBase
     [SerializeField] float minShootInterval = 2f;
     [SerializeField] float maxShootInterval = 6f;
 
-    AttributeComponent attributeComponent;
+    protected AttributeComponent attributeComponent;
 
     // TODO
     // kamikazze enemy
@@ -49,7 +49,7 @@ public class Enemy : SpaceshipBase
         }
     }
 
-    void Shoot()
+    protected virtual void Shoot()
     {
         foreach (Gun gun in guns)
         {

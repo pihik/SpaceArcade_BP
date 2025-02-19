@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1932640e6cf290044a4ee6967192234d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -195,7 +195,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c8a99bdd0f08b8c47af88824e592097b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b171f605b5e8c742a5899c60bbb959c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 6019779510196939762, guid: 917686312689b5a4b9d9875004226687,
+  objectPrefab: {fileID: 6019779510196939762, guid: be4d15d7ae447984797b3a724ba00caf,
     type: 3}
   poolSize: 10
 --- !u!1 &3845837673638350080
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 4870117330476920563}
   - component: {fileID: 8491583234994083072}
   m_Layer: 7
-  m_Name: Line
+  m_Name: Thrust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,7 +298,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Time: 0.2
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -472,7 +472,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c8a99bdd0f08b8c47af88824e592097b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b171f605b5e8c742a5899c60bbb959c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 6019779510196939762, guid: 917686312689b5a4b9d9875004226687,
+  objectPrefab: {fileID: 6019779510196939762, guid: be4d15d7ae447984797b3a724ba00caf,
     type: 3}
   poolSize: 10
 --- !u!1 &8206848412717982373
@@ -588,7 +588,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 28dba14e96296a5469fc68ede85efd5a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -893,7 +893,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c8a99bdd0f08b8c47af88824e592097b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -917,7 +917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b171f605b5e8c742a5899c60bbb959c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 6019779510196939762, guid: 917686312689b5a4b9d9875004226687,
+  objectPrefab: {fileID: 6019779510196939762, guid: be4d15d7ae447984797b3a724ba00caf,
     type: 3}
   poolSize: 10
 --- !u!1001 &196998979552628344
@@ -982,6 +982,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265959101762502035, guid: 7645bdd6c4d07e342a81f6ecacf4e610,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1115,11 +1120,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7653112962636811284, guid: 175e7f004be2f93418a813b7ff660b45,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7697670792898690561, guid: 175e7f004be2f93418a813b7ff660b45,
         type: 3}
       propertyPath: m_Name
       value: RightGun
       objectReference: {fileID: 0}
+    - target: {fileID: 8694559525749795298, guid: 175e7f004be2f93418a813b7ff660b45,
+        type: 3}
+      propertyPath: objectPrefab
+      value: 
+      objectReference: {fileID: 6019779510196939762, guid: be4d15d7ae447984797b3a724ba00caf,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

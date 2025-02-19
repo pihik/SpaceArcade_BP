@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 6019779510196939759}
   - component: {fileID: 6019779510196939758}
   - component: {fileID: 6019779510196939761}
-  - component: {fileID: 4256365834880314888}
+  - component: {fileID: -8629127112764833216}
   - component: {fileID: 8072717565690720198}
-  - component: {fileID: 3604814303234084063}
+  - component: {fileID: -6823790269029372405}
   m_Layer: 8
-  m_Name: BlueProjectile
+  m_Name: BigProjectile 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f603cf93ea5ae914493d5d659d0d5921, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9214065d069d2b4aa3741861d178899, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,7 +118,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4256365834880314888
+--- !u!114 &-8629127112764833216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,10 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98d8d7f1e33882479e58893258883e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 3
   projectileType: 2
-  speed: 30
-  timeToDestroy: 1
+  speed: 8
+  timeToDestroy: 3
 --- !u!58 &8072717565690720198
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.15
---- !u!96 &3604814303234084063
+--- !u!96 &-6823790269029372405
 TrailRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -215,7 +215,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.7
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -224,14 +224,14 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.03
-        inSlope: 0
-        outSlope: 0
+        time: 0.007117831
+        value: 0.07979592
+        inSlope: 0.45636982
+        outSlope: 0.45636982
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.08571392
       - serializedVersion: 3
         time: 1
         value: 0
@@ -246,18 +246,18 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 1, b: 0.949255, a: 1}
-      key1: {r: 0, g: 0.3400205, b: 0.4867924, a: 0.27058825}
-      key2: {r: 0, g: 0.05756812, b: 0.2, a: 0.043137256}
+      key0: {r: 0.5754717, g: 0.08766204, b: 0.046146322, a: 1}
+      key1: {r: 1, g: 0.8368231, b: 0, a: 0.27058825}
+      key2: {r: 1, g: 1, b: 1, a: 0.043137256}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 1, g: 1, b: 1, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 16384
-      ctime2: 32768
-      ctime3: 49151
+      ctime1: 20624
+      ctime2: 49151
+      ctime3: 65535
       ctime4: 65535
       ctime5: 0
       ctime6: 0
@@ -272,7 +272,7 @@ TrailRenderer:
       atime7: 0
       m_Mode: 0
       m_ColorSpace: 0
-      m_NumColorKeys: 5
+      m_NumColorKeys: 4
       m_NumAlphaKeys: 5
     numCornerVertices: 0
     numCapVertices: 0

@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 {
     #region Singleton
     public static AudioManager instance;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -25,9 +26,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource SFXSource;
     [Header("Global Audio Clips")]
     [SerializeField] AudioClip backgroundMainMenuAudio;
+    [SerializeField] AudioClip backgroundGameAudio;
     [SerializeField] AudioClip buttonsSFX;
     [SerializeField] AudioClip explosionSFX;
     [SerializeField] AudioClip asteroidDestructionSFX;
+
+    private void OnEnable()
+    {
+        LevelLoader.OnLevelLoaded += PlayBackgroundAudio;
+    }
 
     void Start()
     {
@@ -37,7 +44,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        PlayBackgroundAudio(backgroundMainMenuAudio);
+        PlayBackgroundAudio();
     }
 
     public void ToggleSound()
@@ -45,8 +52,10 @@ public class AudioManager : MonoBehaviour
         backgroundAudioSource.mute = !backgroundAudioSource.mute;
     }
 
-    public void PlayBackgroundAudio(AudioClip clip)
+    public void PlayBackgroundAudio()
     {
+        AudioClip clip = (LevelLoader.instance.GetActiveSceneInt() == 0) ? backgroundMainMenuAudio : backgroundGameAudio;
+
         if (clip == null)
         {
             Debug.LogError("No background audio clip provided.");
@@ -89,5 +98,10 @@ public class AudioManager : MonoBehaviour
     public void PlayAsteroidDestruction()
     {
         PlaySFX(asteroidDestructionSFX);
+    }
+
+    void OnDisable()
+    {
+        LevelLoader.OnLevelLoaded -= PlayBackgroundAudio;
     }
 }
