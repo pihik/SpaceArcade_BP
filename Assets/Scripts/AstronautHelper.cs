@@ -1,4 +1,3 @@
-using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,15 +80,21 @@ public class AstronautHelper : MonoBehaviour
             return;
         }
 
+        if (!canvas)
+        {
+            Debug.Log("[AsteroidHelper::CheckForText] Canvas is not valid, returning");
+            return;
+        }
+
         if (texts[textIndex].Length == 0)
         {
             Time.timeScale = 1;
-            canvas.gameObject.SetActive(false);
+            canvas.enabled = false;
             return;
         }
 
         Time.timeScale = 0;
-        canvas.gameObject.SetActive(true);
+        canvas.enabled = true;
         myText.text = texts[textIndex];
 
         textIndex++;

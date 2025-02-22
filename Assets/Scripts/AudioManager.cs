@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
@@ -31,7 +32,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip explosionSFX;
     [SerializeField] AudioClip asteroidDestructionSFX;
 
-    private void OnEnable()
+    void OnEnable()
     {
         LevelLoader.OnLevelLoaded += PlayBackgroundAudio;
     }
@@ -44,7 +45,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        PlayBackgroundAudio();
+        PlayBackgroundAudio(0);
     }
 
     public void ToggleSound()
@@ -52,9 +53,9 @@ public class AudioManager : MonoBehaviour
         backgroundAudioSource.mute = !backgroundAudioSource.mute;
     }
 
-    public void PlayBackgroundAudio()
+    void PlayBackgroundAudio(int index)
     {
-        AudioClip clip = (LevelLoader.instance.GetActiveSceneInt() == 0) ? backgroundMainMenuAudio : backgroundGameAudio;
+        AudioClip clip = (index == 0) ? backgroundMainMenuAudio : backgroundGameAudio;
 
         if (clip == null)
         {

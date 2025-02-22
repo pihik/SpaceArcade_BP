@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +29,8 @@ public class UI_GameManager : MonoBehaviour
 
     Canvas canvas;
 
+    bool canPressEscape;
+
     void OnEnable()
     {
         GameManager.instance.OnScoreChange += ScoreTextChange;
@@ -51,6 +51,14 @@ public class UI_GameManager : MonoBehaviour
         OnSceneChange();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && canPressEscape)
+        {
+            EscapeSwitch();
+        }
+    }
+
     void OnSceneChange()
     {
         string level = LevelLoader.instance.GetActiveSceneInt().ToString();
@@ -65,6 +73,7 @@ public class UI_GameManager : MonoBehaviour
         InitializeButtons();
 
         gameOverObject.SetActive(false);
+        canPressEscape = true;
     }
 
     void HandleLastScene()
@@ -75,9 +84,19 @@ public class UI_GameManager : MonoBehaviour
 
     void OnPlayerDestroy()
     {
+        canPressEscape = false;
         gameOverObject.SetActive(true);
         gameOverObject.transform.GetChild(1).GetComponent<Text>().text = "SCORE: " + GameManager.instance.GetScore().ToString();
         canvas.sortingOrder = 1000;
+    }
+
+    void EscapeSwitch()
+    {
+        bool isEscapeActive = gameOverObject.activeSelf;
+
+        gameOverObject.SetActive(!isEscapeActive);
+        Time.timeScale = (isEscapeActive) ? 1 : 0;
+        canvas.sortingOrder = (isEscapeActive) ? 0 : 1000;
     }
 
     void ScoreTextChange(int amount)

@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
-    public static Action OnLevelLoaded;
+    public static Action<int> OnLevelLoaded;
 
     #region Singleton
     public static LevelLoader instance;
@@ -24,15 +21,12 @@ public class LevelLoader : MonoBehaviour
     }
     #endregion
 
-    void OnEnable()
-    {
-        //GameManager.instance.OnEnemiesDestroyed += LoadNextScene;
-    }
-
     public void LoadNextScene()
     {
+        int levelIndex = GetActiveSceneInt() + 1;
+
         SceneManager.LoadScene(GetActiveSceneInt() + 1);
-        OnLevelLoaded?.Invoke();
+        OnLevelLoaded?.Invoke(levelIndex);
     }
 
     public void Restart() // later put player to starting level 1 and reset his score 
@@ -40,14 +34,14 @@ public class LevelLoader : MonoBehaviour
         Time.timeScale = 1;
         GameManager.instance.SetScore(0);
         SceneManager.LoadScene(1);//(GetActiveSceneInt());
-        OnLevelLoaded?.Invoke();
+        OnLevelLoaded?.Invoke(1);
     }
 
     public void LoadMainMenu() 
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
-        OnLevelLoaded?.Invoke();
+        OnLevelLoaded?.Invoke(1);
     }
 
     public int GetActiveSceneInt()
@@ -63,10 +57,5 @@ public class LevelLoader : MonoBehaviour
     public bool IsLastScene()
     {
         return GetActiveSceneInt() == SceneManager.sceneCountInBuildSettings - 1;
-    }
-
-    void OnDisable()
-    {
-        //GameManager.instance.OnEnemiesDestroyed -= LoadNextScene;
     }
 }

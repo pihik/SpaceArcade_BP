@@ -1,6 +1,4 @@
-using UnityEditor.SceneManagement;
 using UnityEngine;
-
 
 [RequireComponent(typeof(Player))]
 public class AbandonedShip : MonoBehaviour
