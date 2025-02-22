@@ -15,11 +15,7 @@ public class Enemy : SpaceshipBase
 
     protected AttributeComponent attributeComponent;
 
-    // TODO
-    // kamikazze enemy
-    // Mining enemy
-    // Heavy enemy
-    // boss fight with enemy stationary space station
+    float timer = 0;
 
     protected override void Awake()
     {
@@ -33,13 +29,15 @@ public class Enemy : SpaceshipBase
         }
 
         attributeComponent.OnZeroHealth += ZeroHealth;
+        myCollider.enabled = false;
     }
 
     protected override void Start()
     {
         RotateToPlayer();
-        StartCoroutine(ShootingRoutine());
+        StartCoroutine(SpawnedRoutine());
     }
+
     protected IEnumerator ShootingRoutine()
     {
         while (true)
@@ -60,6 +58,30 @@ public class Enemy : SpaceshipBase
     float ShootTimeDelay()
     {
         return UnityEngine.Random.Range(minShootInterval, maxShootInterval);
+    }
+
+    IEnumerator SpawnedRoutine()
+    {
+        timer = 0;
+
+        while (timer < 3)
+        {
+            SetBlinkColor(timer);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        myCollider.enabled = true;
+
+        StartCoroutine(ShootingRoutine());
+    }
+
+    void SetBlinkColor(float timer)
+    {
+        Color color = myRenderer.color;
+        color.a = Mathf.PingPong(timer * 3, 1);
+        myRenderer.color = color;
     }
 
     void RotateToPlayer()

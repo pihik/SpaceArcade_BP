@@ -34,7 +34,7 @@ public class AttributeComponent : MonoBehaviour
             return;
         }
 
-        if (!shield.isActiveAndEnabled)
+        if (!shield.GetMySpriteRenderer().isVisible)
         {
             healthAmount -= amount;
 
@@ -84,5 +84,10 @@ public class AttributeComponent : MonoBehaviour
     public void SetIsImmortal(bool value)
     {
         isImmortal = value;
+    }
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }

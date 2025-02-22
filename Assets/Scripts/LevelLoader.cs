@@ -60,6 +60,11 @@ public class LevelLoader : MonoBehaviour
         Application.Quit();
     }
 
+    public bool IsLastScene()
+    {
+        return GetActiveSceneInt() == SceneManager.sceneCountInBuildSettings - 1;
+    }
+
     void OnDisable()
     {
         //GameManager.instance.OnEnemiesDestroyed -= LoadNextScene;

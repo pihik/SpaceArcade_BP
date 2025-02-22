@@ -24,7 +24,7 @@ public class PlayersAttributeComponent : AttributeComponent
         OnHealthChange?.Invoke(healthAmount);
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
 

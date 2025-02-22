@@ -100,7 +100,7 @@ public class Player : SpaceshipBase
         {
             foreach (Gun gun in guns)
             {
-                gun.IncreaseFireRate(0.1f);
+                gun.IncreaseFireRate(0.03f);
             }
         }
     }

@@ -14,5 +14,20 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/Scenes/Level_2.unity
     guid: c1e036daa113880438de1aa926ce5df0
+  - enabled: 1
+    path: Assets/Assets/Scenes/Level_3.unity
+    guid: df5d6ef65600b924291d5802a5ad21c8
+  - enabled: 1
+    path: Assets/Assets/Scenes/Level_4.unity
+    guid: faaa7a83144b66846baf7b2f80b25e76
+  - enabled: 1
+    path: Assets/Assets/Scenes/Level_5.unity
+    guid: 14f52081361559941a8877452e231421
+  - enabled: 1
+    path: Assets/Assets/Scenes/Level_BossFight.unity
+    guid: e0daea7b9466d254583b9c500c3e3afa
+  - enabled: 1
+    path: Assets/Assets/Scenes/WinnerScene.unity
+    guid: a40cc4b37c60e2845b01a01a009c3127
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

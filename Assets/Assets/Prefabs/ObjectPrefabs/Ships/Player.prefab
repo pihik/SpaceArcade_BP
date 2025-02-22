@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zOffset: 0
+  gunType: 0
   fireRate: 0.5
   isActive: 0
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
@@ -167,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zOffset: 0
+  gunType: 0
   fireRate: 0.5
   isActive: 0
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
@@ -480,7 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrustSpeed: 5
-  rotationSpeed: 300
+  rotationSpeed: 200
 --- !u!114 &6611211582143344636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,6 +833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zOffset: 0
+  gunType: 0
   fireRate: 0.5
   isActive: 1
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}

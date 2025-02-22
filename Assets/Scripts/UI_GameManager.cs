@@ -36,12 +36,17 @@ public class UI_GameManager : MonoBehaviour
         GameManager.instance.OnScoreChange += ScoreTextChange;
         PlayersAttributeComponent.OnHealthChange += HealthTextChange;
         PlayersAttributeComponent.OnPlayerDestroy += OnPlayerDestroy;
-        //LevelLoader.OnSceneChange += OnSceneChange;
     }
 
     void Start()
     {
         canvas = GetComponent<Canvas>();
+
+        if (LevelLoader.instance.IsLastScene())
+        {
+            HandleLastScene();
+            return;
+        }
 
         OnSceneChange();
     }
@@ -51,14 +56,21 @@ public class UI_GameManager : MonoBehaviour
         string level = LevelLoader.instance.GetActiveSceneInt().ToString();
 
         levelText.text = level;
-
+        
         levelInfoText.text = "Level " + level;
         levelInfoText.enabled = true;
         Invoke(nameof(DeactivateLevelText), 3);
         
         gameOverObject.SetActive(true);
         InitializeButtons();
+
         gameOverObject.SetActive(false);
+    }
+
+    void HandleLastScene()
+    {
+        OnPlayerDestroy();
+        InitializeButtons();
     }
 
     void OnPlayerDestroy()
@@ -118,6 +130,5 @@ public class UI_GameManager : MonoBehaviour
         GameManager.instance.OnScoreChange -= ScoreTextChange;
         PlayersAttributeComponent.OnHealthChange -= HealthTextChange;
         PlayersAttributeComponent.OnPlayerDestroy -= OnPlayerDestroy;
-        //LevelLoader.OnSceneChange -= OnSceneChange;
     }
 }

@@ -18,7 +18,8 @@ public class Shield : MonoBehaviour
 
     void Start()
     {
-        gameObject.SetActive(false);
+        spriteRenderer.enabled = false;
+        //gameObject.SetActive(false);
     }
 
     public void SetShieldTime(float time)
@@ -28,13 +29,15 @@ public class Shield : MonoBehaviour
 
     public void ActivateShieldBlink()
     {
-        gameObject.SetActive(true);
+        spriteRenderer.enabled = true;
+        //gameObject.SetActive(true);
         shieldBlinkRoutine = StartCoroutine(ShieldBlinkRoutine());
     }
 
     public void ActivateShield(float timeDuration)
     {
-        gameObject.SetActive(true);
+        spriteRenderer.enabled = true;
+        //gameObject.SetActive(true);
 
         if (shieldBlinkRoutine != null)
         {
@@ -58,7 +61,8 @@ public class Shield : MonoBehaviour
 
         ResetAlphaColor();
 
-        gameObject.SetActive(false);
+        spriteRenderer.enabled = false;
+        //gameObject.SetActive(false);
         shieldBlinkRoutine = null;
     }
 
@@ -73,7 +77,8 @@ public class Shield : MonoBehaviour
             yield return null;
         }
 
-        gameObject.SetActive(false);
+        spriteRenderer.enabled = false;
+        //gameObject.SetActive(false);
     }
 
     void SetBlinkColor(float timer)
@@ -84,13 +89,17 @@ public class Shield : MonoBehaviour
         spriteRenderer.color = newColor;
     }
 
+    public SpriteRenderer GetMySpriteRenderer()
+    {
+        return spriteRenderer;
+    }
+
     void ResetAlphaColor()
     {
         Color finalColor = spriteRenderer.color;
         finalColor.a = 1;
         spriteRenderer.color = finalColor;
     }
-
 
     void OnDisable()
     {

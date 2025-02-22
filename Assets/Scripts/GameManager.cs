@@ -53,10 +53,8 @@ public class GameManager : MonoBehaviour
     public void DecreaseNumberOfEnemies()
     {
         numberOfEnemies--;
-
-        Debug.Log("Number of enemies: " + numberOfEnemies);
         
-        if (numberOfEnemies <= 0)
+        if (numberOfEnemies < 0)
         {
             Debug.Log("All enemies destroyed!");
             OnEnemiesDestroyed?.Invoke();

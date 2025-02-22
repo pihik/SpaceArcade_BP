@@ -113,8 +113,7 @@ public class Gun : MonoBehaviour
     public void IncreaseFireRate(float value) // ah it's flipped, so we actually need to decrease the fire rate
     {
         float newFireRate = fireRate - value;
-        
-        fireRate = (newFireRate < 0) ? 0 : newFireRate;
+        fireRate = (newFireRate < 0.02f) ? 0.02f : newFireRate;
     }
 }
 public enum GunType { Laser, Missile, Bullet, Plasma }

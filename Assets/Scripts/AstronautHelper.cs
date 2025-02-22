@@ -97,7 +97,7 @@ public class AstronautHelper : MonoBehaviour
 
     bool IsValidIndex(int index)
     {
-        bool isValid = (index > amountOfTexts) ? false : true;
+        bool isValid = (index >= amountOfTexts) ? false : true;
 
         return isValid;
     }

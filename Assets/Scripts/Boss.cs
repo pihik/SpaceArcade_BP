@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Boss : AdvancedEnemy
 {
-    public static Action OnBossDeath;
-
     [SerializeField] float moveSpeed = 3f;
 
     [Header ("Move Intervals")]
@@ -17,9 +15,6 @@ public class Boss : AdvancedEnemy
     [Header("Shield Intervals")]
     [SerializeField] int maxShieldInterval = 15;
     [SerializeField] int minShieldInterval = 6;
-
-    [Tooltip("The padding around the border of the map. (how far boss can move from border to this length)")]
-    [SerializeField] int borderPadding = 15;
 
     // guns with time to shoot
     List<Gun[]> gunsList = new List<Gun[]>();
@@ -120,11 +115,5 @@ public class Boss : AdvancedEnemy
     Gun[] GetGunOnType(GunType gunType)
     {
         return Array.FindAll(guns, gun => gun.GetGunType() == gunType);
-    }
-
-    protected override void ZeroHealth()
-    {
-        base.ZeroHealth();
-        OnBossDeath?.Invoke();
     }
 }

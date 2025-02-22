@@ -7,14 +7,19 @@ using UnityEngine.Pool;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Projectile : MonoBehaviour
 {
-    Rigidbody2D myRB;
-    Shoot_ObjectPool shootingObjectPool;
 
     [SerializeField] int damage = 1;
     [SerializeField] float speed = 300f;
     [SerializeField] float timeToDestroy = 1f;
 
+    Shoot_ObjectPool shootingObjectPool;
     GameObject instigator;
+    TrailRenderer trail;
+
+    void Awake()
+    {
+        trail = GetComponent<TrailRenderer>();
+    }
 
     void Start()
     {
@@ -43,6 +48,7 @@ public class Projectile : MonoBehaviour
 
     void Deactivate()
     {
+        trail.Clear();
         CancelInvoke();
         shootingObjectPool.ReturnObjectToPool(gameObject);
     }
