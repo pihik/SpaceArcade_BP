@@ -61,6 +61,10 @@ public class UI_GameManager : MonoBehaviour
 
     void OnSceneChange()
     {
+        int currentScore = GameManager.instance.GetScore();
+
+        ScoreTextChange(currentScore);
+
         string level = LevelLoader.instance.GetActiveSceneInt().ToString();
 
         levelText.text = level;

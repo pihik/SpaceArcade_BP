@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7bd338272ac4f49b69b4d51ad91a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthAmount: 50
+  healthAmount: 10000
 --- !u!58 &8700228057238825307
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -704,7 +704,6 @@ MonoBehaviour:
   minMoveInterval: 2
   maxShieldInterval: 15
   minShieldInterval: 6
-  borderPadding: 15
 --- !u!1 &6207223797835172505
 GameObject:
   m_ObjectHideFlags: 0

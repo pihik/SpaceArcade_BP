@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0df10b6971d2ef44a5773999ae39339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreValue: 50
+  scoreValue: 100
   minShootInterval: 2
   maxShootInterval: 6
   rotatingSpeed: 3

@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c159eff3e29b1b44b433bc38b7acdbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreValue: 50
+  scoreValue: 75
   minShootInterval: 2
   maxShootInterval: 6
   rotatingSpeed: 1
