@@ -5,114 +5,96 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Gun : MonoBehaviour
 {
-    [Header("Gun References")]
-    [SerializeField] float zOffset;
+	[Header("Gun References")]
+	[SerializeField] float zOffset;
 
-    [Header("Gun Type")]
-    [SerializeField] GunType gunType;
+	[Header("Gun Type")]
+	[SerializeField] GunType gunType;
 
-    [Header("Gun Properties")]
-    [SerializeField] float fireRate = 0.5f;
-    [SerializeField] bool isActive = true;
+	[Header("Gun Properties")]
+	[SerializeField] float fireRate = 0.5f;
+	[SerializeField] bool isActive = true;
 
-    [SerializeField] AudioClip shootSound;
+	[SerializeField] AudioClip shootSound;
 
-    Shoot_ObjectPool shootingObjectPool;
-    SpriteRenderer spriteRenderer;
+	Shoot_ObjectPool shootingObjectPool;
+	SpriteRenderer spriteRenderer;
 
-    bool canShoot = true;
+	bool canShoot = true;
 
-    void Awake()
-    {
-        shootingObjectPool = GetComponent<Shoot_ObjectPool>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+	void Awake()
+	{
+		shootingObjectPool = GetComponent<Shoot_ObjectPool>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (!shootingObjectPool)
-        {
-            Debug.Log("Shooting component not found on the object: " + gameObject.name);
-            return;
-        }
+		ActiveSwitch(isActive);
+	}
 
-        if (!spriteRenderer)
-        {
-            Debug.Log("SpriteRenderer component not found on the object: " + gameObject.name);
-            return;
-        }
+	public void ActiveSwitch(bool isActive)
+	{
+		if (this.isActive != isActive)
+		{
+			this.isActive = isActive;
+			canShoot = isActive;
+		}
+		spriteRenderer.enabled = isActive;
+	}
 
-        ActiveSwitch(isActive);
-    }
+	public void Shoot()
+	{
+		if (isActive && canShoot && shootingObjectPool)
+		{
+			StartCoroutine(ShootRoutine());
+		}
+	}
 
-    public void ActiveSwitch(bool isActive)
-    {
-        if (this.isActive != isActive)
-        {
-            this.isActive = isActive;
-            canShoot = isActive;
-        }
-        spriteRenderer.enabled = isActive;
-    }
+	IEnumerator ShootRoutine()
+	{
+		canShoot = false;
 
-    public void Shoot()
-    {
-        StartCoroutine(ShootRoutine());
-    }
+		GameObject projectile = shootingObjectPool.GetObjectFromPool();
 
-    IEnumerator ShootRoutine()
-    {
-        if (isActive && canShoot && shootingObjectPool)
-        {
-            canShoot = false;
+		if (projectile)
+		{
+			Vector3 positionOffset = new Vector3(transform.position.x, transform.position.y, transform.position.z + zOffset);
 
-            GameObject projectile = shootingObjectPool.GetObjectFromPool();
+			projectile.transform.position = positionOffset;
+			projectile.transform.rotation = transform.rotation;
 
-            if (projectile)
-            {
-                Vector3 positionOffset = new Vector3(transform.position.x, transform.position.y, transform.position.z + zOffset);
+			PlayShootAudio();
+		}
 
-                projectile.transform.position = positionOffset;
-                projectile.transform.rotation = transform.rotation;
+		yield return new WaitForSeconds(fireRate);
+		canShoot = true;
+	}
 
-                PlayShootAudio();
-            }
+	void PlayShootAudio()
+	{
+		if (shootSound)
+		{
+			AudioManager.instance.PlaySFX(shootSound);
+		}
+	}
 
-            yield return new WaitForSeconds(fireRate);
-            canShoot = true;
-        }
-        else
-        {
-            yield break;
-        }
-    }
+	void OnDisable()
+	{
+		StopAllCoroutines();
+	}
 
-    void PlayShootAudio()
-    {
-        if (!shootSound)
-        {
-            Debug.Log("No shoot sound found");
-            return;
-        }
-        AudioManager.instance.PlaySFX(shootSound);
-    }
+	public bool IsActivate()
+	{
+		return isActive;
+	}
 
-    void OnDisable()
-    {
-        StopAllCoroutines();
-    }
+	public GunType GetGunType()
+	{
+		return gunType;
+	}	
 
-    public bool IsActivate()
-    {
-        return isActive;
-    }
-
-    public GunType GetGunType()
-    {
-        return gunType;
-    }    
-
-    public void IncreaseFireRate(float value) // ah it's flipped, so we actually need to decrease the fire rate
-    {
-        float newFireRate = fireRate - value;
-        fireRate = (newFireRate < 0.02f) ? 0.02f : newFireRate;
-    }
+	public void IncreaseFireRate(float value) // ah it's flipped, so we actually need to decrease the fire rate
+	{
+		float newFireRate = fireRate - value;
+		fireRate = (newFireRate < 0.02f) ? 0.02f : newFireRate;
+	}
 }
 public enum GunType { Laser, Missile, Bullet, Plasma }

@@ -5,87 +5,93 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class AttributeComponent : MonoBehaviour
 {
-    public Action OnZeroHealth;
+	public Action OnZeroHealth;
 
-    [SerializeField] protected int healthAmount = 3;
+	[SerializeField] protected int healthAmount = 3;
 
-    Shield shield;
-    SpriteRenderer spriteRenderer;
+	Shield shield;
+	SpriteRenderer spriteRenderer;
 
-    bool isImmortal = false;
+	bool isImmortal = false;
 
-    void Awake()
-    {
-        shield = GetComponentInChildren<Shield>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+	void Awake()
+	{
+		shield = GetComponentInChildren<Shield>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (!shield || !spriteRenderer)
-        {
-            Debug.LogError("[AttributeComponent::Awake] Somethings wrong on: " + name);
-        }
-    }
+		if (!shield || !spriteRenderer)
+		{
+			Debug.LogError("[AttributeComponent::Awake] Somethings wrong on: " + name);
+		}
+	}
 
-    virtual protected void HealthDecrease(int amount, bool activateShield)
-    {
-        if (isImmortal)
-        {
-            return;
-        }
+	virtual protected void HealthDecrease(int amount, bool activateShield)
+	{
+		if (isImmortal)
+		{
+			return;
+		}
 
-        if (!shield.GetMySpriteRenderer().isVisible)
-        {
-            healthAmount -= amount;
+		if (!shield.GetMySpriteRenderer().isVisible)
+		{
+			healthAmount -= amount;
 
-            StartCoroutine(ChangeColorForSplitSecond());
-            if (healthAmount <= 0)
-            {
-                healthAmount = 0;
-                OnZeroHealth?.Invoke();
-                return;
-            }
+			StartCoroutine(ChangeColorForSplitSecond());
+			if (healthAmount <= 0)
+			{
+				healthAmount = 0;
+				OnZeroHealth?.Invoke();
 
-            if (activateShield)
-            {
-                shield.ActivateShieldBlink();
-            }
-        }
-    }
+				return;
+			}
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<Projectile>(out Projectile projectileComp))
-        {
-            if (projectileComp.GetInstigator() == gameObject)
-            {
-                return;
-            }
-            HealthDecrease(projectileComp.GetDamage(), false);
-        }
-        else if (collision.TryGetComponent<Asteroid>(out Asteroid asteroidComp))
-        {
-            HealthDecrease(1, true);
-        }
-    }
+			if (activateShield)
+			{
+				shield.ActivateShieldBlink();
+			}
+		}
+	}
 
-    IEnumerator ChangeColorForSplitSecond()
-    {
-        spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.white;
-    }
+	protected virtual void OnTriggerEnter2D(Collider2D collision)
+	{
+		int collisionLayerIndex = collision.gameObject.layer;
 
-    public Shield GetShieldComponent()
-    {
-        return shield;
-    }
+		if (((InGameHelper.instance.GetProjectileLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex) &&
+			collision.TryGetComponent(out Projectile projectileComp))
+		{
+			if (projectileComp.GetInstigator() == gameObject)
+			{
+				return;
+			}
 
-    public void SetIsImmortal(bool value)
-    {
-        isImmortal = value;
-    }
+			HealthDecrease(projectileComp.GetDamage(), false);
+		}
+		else if (((InGameHelper.instance.GetAsteroidLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex) &&
+			collision.TryGetComponent(out Asteroid asteroidComp))
+		{
+			HealthDecrease(1, true);
+		}
+	}
 
-    void OnDestroy()
-    {
-        StopAllCoroutines();
-    }
+	IEnumerator ChangeColorForSplitSecond()
+	{
+		spriteRenderer.color = Color.red;
+		yield return new WaitForSeconds(0.1f);
+		spriteRenderer.color = Color.white;
+	}
+
+	public Shield GetShieldComponent()
+	{
+		return shield;
+	}
+
+	public void SetIsImmortal(bool value)
+	{
+		isImmortal = value;
+	}
+
+	void OnDestroy()
+	{
+		StopAllCoroutines();
+	}
 }

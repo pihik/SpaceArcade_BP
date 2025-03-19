@@ -12,8 +12,9 @@ public class Player : SpaceshipBase
 
     AudioSource audioSource;
     PlayersAttributeComponent playersAttributeComponent;
+	Camera mainCamera;
 
-    bool disabledMovement = false;
+	bool disabledMovement = false;
 
     protected override void Awake()
     {
@@ -21,10 +22,11 @@ public class Player : SpaceshipBase
 
         playersAttributeComponent = GetComponent<PlayersAttributeComponent>(); 
         audioSource = GetComponent<AudioSource>();
+		mainCamera = Camera.main;
 
-        if (!playersAttributeComponent || !audioSource)
+		if (!playersAttributeComponent || !audioSource || !mainCamera)
         {
-            Debug.LogError("Something went wrong, check PlayerScript::Awake on: " + gameObject.name);
+            Debug.LogError("[PlayerScript::Awake] Something went wrong, check on: " + name);
         }
 
         playersAttributeComponent.OnZeroHealth += ZeroHealth;
@@ -46,14 +48,7 @@ public class Player : SpaceshipBase
         Move();
         Rotate();
 
-        if (Input.GetKey(KeyCode.Space))
-        {
-            onSpacePressed?.Invoke();
-            foreach (Gun gun in guns)
-            {
-                gun.Shoot();
-            }
-        }
+        HandleShootInput();
     }
 
     void Move()
@@ -74,7 +69,31 @@ public class Player : SpaceshipBase
         transform.Rotate(0, 0, -horizontalInputs);
     }
 
-    public PlayersAttributeComponent GetAttributeComponent()
+	void KeepPlayerInBounds()
+	{
+		Vector3 position = transform.position;
+		Vector3 screenBoundsMin = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
+		Vector3 screenBoundsMax = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+		position.x = Mathf.Clamp(position.x, screenBoundsMin.x, screenBoundsMax.x);
+		position.y = Mathf.Clamp(position.y, screenBoundsMin.y, screenBoundsMax.y);
+
+		transform.position = position;
+	}
+
+    void HandleShootInput()
+    {
+		if (Input.GetKey(KeyCode.Space))
+		{
+			onSpacePressed?.Invoke();
+			foreach (Gun gun in guns)
+			{
+				gun.Shoot();
+			}
+		}
+	}
+
+	public PlayersAttributeComponent GetAttributeComponent()
     {
         return playersAttributeComponent;
     }
@@ -100,18 +119,6 @@ public class Player : SpaceshipBase
                 gun.IncreaseFireRate(0.03f);
             }
         }
-    }
-
-    void KeepPlayerInBounds()
-    {
-        Vector3 position = transform.position;
-        Vector3 screenBoundsMin = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector3 screenBoundsMax = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
-
-        position.x = Mathf.Clamp(position.x, screenBoundsMin.x, screenBoundsMax.x);
-        position.y = Mathf.Clamp(position.y, screenBoundsMin.y, screenBoundsMax.y);
-
-        transform.position = position;
     }
 
     public void SetIsAbandoned(bool isAbandoned)

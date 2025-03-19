@@ -21,12 +21,6 @@ public class Enemy : SpaceshipBase
         base.Awake();
         attributeComponent = GetComponent<AttributeComponent>();
 
-        if (!attributeComponent)
-        {
-            Debug.LogError("AttributeComponent not found on the object: " + gameObject.name);
-            return;
-        }
-
         attributeComponent.OnZeroHealth += ZeroHealth;
         myCollider.enabled = false;
     }

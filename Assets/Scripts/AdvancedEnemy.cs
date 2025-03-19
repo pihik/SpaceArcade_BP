@@ -19,7 +19,7 @@ public class AdvancedEnemy : Enemy
 
         if (!playerTransform)
         {
-            Debug.Log("Player not found! on the object: " + gameObject.name);
+            Debug.Log("[AdvancedEnemy::Start] Player not found! on the object: " + name);
         }
     }
 

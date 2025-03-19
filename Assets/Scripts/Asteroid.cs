@@ -4,114 +4,109 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-    [Tooltip("Score will increase after hit to the asteroid")]
-    [SerializeField] int scoreToIncrease = 35;
-    [Tooltip("Bigger number = bigger asteroid")]
-    [SerializeField, Range(1, 3)] int asteroidSize = 1;
+	[Tooltip("Score will increase after hit to the asteroid")]
+	[SerializeField] int scoreToIncrease = 35;
+	[Tooltip("Bigger number = bigger asteroid")]
+	[SerializeField, Range(1, 3)] int asteroidSize = 1;
 
-    [SerializeField] float selfDestructionTime = 100f;
+	[SerializeField] float selfDestructionTime = 100f;
 
-    Asteroid_ObjectPool objectPool;
-    Asteroid_ObjectPool nextObjectPool;
+	Asteroid_ObjectPool objectPool;
+	Asteroid_ObjectPool nextObjectPool;
 
-    void Start()
-    {
-        if (asteroidSize > 1)
-        {
-            nextObjectPool = InGameHelper.instance.GetAsteroidPool(asteroidSize - 2);
-        }
+	void Start()
+	{
+		if (asteroidSize > 1)
+		{
+			nextObjectPool = InGameHelper.instance.GetAsteroidPool(asteroidSize - 2);
+		}
 
-        Invoke(nameof(Deactivate), selfDestructionTime);
-    }
-    
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        int collisionLayerIndex = collision.gameObject.layer;
+		Invoke(nameof(Deactivate), selfDestructionTime);
+	}
+	
+	void OnTriggerEnter2D(Collider2D collision)
+	{
+		int collisionLayerIndex = collision.gameObject.layer;
 
-        if (collision.TryGetComponent<Projectile>(out Projectile projectileComp))
-        {
-            if (projectileComp.GetInstigator().gameObject == InGameHelper.instance.GetPlayer().gameObject)
-            {
-                GameManager.instance.ScoreIncrease(scoreToIncrease);
-            }
-        }
+		if (((InGameHelper.instance.GetProjectileLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex) &&
+			collision.TryGetComponent(out Projectile projectileComp))
+		{
+			if (projectileComp.GetInstigator().gameObject == InGameHelper.instance.GetPlayer().gameObject)
+			{
+				GameManager.instance.ScoreIncrease(scoreToIncrease);
+			}
+		}
 
-        if (!((InGameHelper.instance.GetShredderLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex))
-        {
-            PlayDestroyClip();
+		if (!((InGameHelper.instance.GetShredderLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex))
+		{
+			if (asteroidSize > 1)
+			{
+				Scatter();
+			}
+		}
 
-            if (asteroidSize > 1)
-            {
-                Scatter();
-                return;
-            }
-        }
+		PlayDestroyClip();
+		Deactivate();
+	}
+	
+	void Scatter()
+	{
+		int spawnAmount = 0;
 
-        Deactivate();
-    }
-    
-    void Scatter()
-    {
-        PlayDestroyClip();
-        Deactivate();
+		switch (asteroidSize)
+		{
+			case 1:
+				return;
+			case 2:
+				spawnAmount = 3;
+				break;
+			case 3:
+				spawnAmount = 2;
+				break;
+			default:
+				break;
+		}
+		for (int i = 0; i < spawnAmount; i++)
+		{
+			ActivateSmallerAsteroid();
+		}
+	}
 
-        int spawnAmount = 0;
+	void ActivateSmallerAsteroid()
+	{
+		if (nextObjectPool == null)
+		{
+			Debug.Log("nextObjectPool is null...... index = " + asteroidSize);
+			return;
+		}
 
-        switch (asteroidSize)
-        {
-            case 1:
-                return;
-            case 2:
-                spawnAmount = 3;
-                break;
-            case 3:
-                spawnAmount = 2;
-                break;
-            default:
-                break;
-        }
-        for (int i = 0; i < spawnAmount; i++)
-        {
-            ActivateSmallerAsteroid();
-        }
-    }
+		GameObject Asteroid = nextObjectPool.GetObjectFromPool();
+		Asteroid.transform.position = transform.position;
 
-    void ActivateSmallerAsteroid()
-    {
-        if (nextObjectPool == null)
-        {
-            Debug.Log("nextObjectPool is null...... index = " + asteroidSize);
-            return;
-        }
+		if (Asteroid.TryGetComponent(out AsteroidMove asteroidMoveComp))
+		{
+			asteroidMoveComp.RandomMove(true);
+		}
+	}
 
-        GameObject Asteroid = nextObjectPool.GetObjectFromPool();
-        Asteroid.transform.position = transform.position;
+	public void SetObjectPool(Asteroid_ObjectPool objectPool)
+	{
+		this.objectPool = objectPool;
+	}
 
-        AsteroidMove AsteroidMoveComp = Asteroid.GetComponent<AsteroidMove>();
-        if (AsteroidMoveComp != null)
-        {
-            AsteroidMoveComp.RandomMove(true);
-        }
-    }
+	void Deactivate()
+	{
+		CancelInvoke();
+		objectPool?.ReturnObjectToPool(gameObject);
+	}
 
-    public void SetObjectPool(Asteroid_ObjectPool objectPool)
-    {
-        this.objectPool = objectPool;
-    }
+	void SelfDestruction()
+	{
+		Destroy(gameObject);
+	}
 
-    void Deactivate()
-    {
-        CancelInvoke();
-        objectPool.ReturnObjectToPool(gameObject);
-    }
-
-    void SelfDestruction()
-    {
-        Destroy(gameObject);
-    }
-
-    void PlayDestroyClip()
-    {
-        AudioManager.instance.PlayAsteroidDestruction();
-    }
+	void PlayDestroyClip()
+	{
+		AudioManager.instance.PlayAsteroidDestruction();
+	}
 }
