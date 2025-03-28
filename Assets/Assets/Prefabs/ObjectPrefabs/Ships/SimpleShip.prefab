@@ -138,7 +138,7 @@ Transform:
   m_Children:
   - {fileID: 2980646639006460877}
   - {fileID: 4933763849682649544}
-  - {fileID: 5887807004934343221}
+  - {fileID: 5672065779163339796}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5914724794466449766
@@ -367,7 +367,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4933763849682262858}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5267967108871006813
+--- !u!1001 &6204021487447817340
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -433,16 +433,16 @@ PrefabInstance:
     - target: {fileID: 7697670792898690561, guid: 175e7f004be2f93418a813b7ff660b45,
         type: 3}
       propertyPath: m_Name
-      value: SmallGun
+      value: O_SmallGun
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 175e7f004be2f93418a813b7ff660b45, type: 3}
---- !u!4 &5887807004934343221 stripped
+--- !u!4 &5672065779163339796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1778400040584847464, guid: 175e7f004be2f93418a813b7ff660b45,
     type: 3}
-  m_PrefabInstance: {fileID: 5267967108871006813}
+  m_PrefabInstance: {fileID: 6204021487447817340}
   m_PrefabAsset: {fileID: 0}

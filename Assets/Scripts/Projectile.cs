@@ -5,68 +5,68 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
-    [SerializeField] int damage = 1;
-    [SerializeField] float speed = 300f;
-    [SerializeField] float timeToDestroy = 1f;
+	[SerializeField] int damage = 1;
+	[SerializeField] float speed = 300f;
+	[SerializeField] float timeToDestroy = 1f;
 
-    Shoot_ObjectPool shootingObjectPool;
-    GameObject instigator;
-    TrailRenderer trail;
+	Shoot_ObjectPool shootingObjectPool;
+	GameObject instigator;
+	TrailRenderer trail;
 
-    void Awake()
-    {
-        trail = GetComponent<TrailRenderer>();
-    }
+	void Awake()
+	{
+		trail = GetComponent<TrailRenderer>();
+	}
 
-    void Start()
-    {
-        Invoke(nameof(Deactivate), timeToDestroy);
-    }
+	void Start()
+	{
+		Invoke(nameof(Deactivate), timeToDestroy);
+	}
 
-    void Update()
-    {
-        transform.Translate(Vector3.up * speed * Time.deltaTime);
-    }
+	void Update()
+	{
+		transform.Translate(Vector3.up * speed * Time.deltaTime);
+	}
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == instigator)
-        {
-            return;
-        }
+	void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject == instigator)
+		{
+			return;
+		}
 
-        Deactivate();
-    }
+		Deactivate();
+	}
 
-    void SelfDestruction()
-    {
-        Destroy(gameObject);
-    }
+	void SelfDestruction()
+	{
+		Destroy(gameObject);
+	}
 
-    void Deactivate()
-    {
-        trail.Clear();
-        CancelInvoke();
-        shootingObjectPool.ReturnObjectToPool(gameObject);
-    }
+	void Deactivate()
+	{
+		trail.Clear();
+		CancelInvoke();
+		shootingObjectPool.ReturnObjectToPool(this);
+	}
 
-    public void SetObjectPool(Shoot_ObjectPool ObjectPoolComponent)
-    {
-        shootingObjectPool = ObjectPoolComponent;
-    }
+	public void SetObjectPool(Shoot_ObjectPool ObjectPoolComponent)
+	{
+		shootingObjectPool = ObjectPoolComponent;
+	}
 
-    public void SetInstigator(GameObject instigator)
-    {
-        this.instigator = instigator;
-    }
+	public void SetInstigator(GameObject instigator)
+	{
+		this.instigator = instigator;
+	}
 
-    public GameObject GetInstigator()
-    {
-        return instigator;
-    }
+	public GameObject GetInstigator()
+	{
+		return instigator;
+	}
 
-    public int GetDamage()
-    {
-        return damage;
-    }
+	public int GetDamage()
+	{
+		return damage;
+	}
 }

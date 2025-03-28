@@ -1,15 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Shoot_ObjectPool))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class Gun : MonoBehaviour
 {
 	[Header("Gun References")]
-	[SerializeField] float zOffset;
+	[SerializeField] float yOffset;
 
 	[Header("Gun Type")]
-	[SerializeField] GunType gunType;
+	[SerializeField] ProjectileType projectileType;
 
 	[Header("Gun Properties")]
 	[SerializeField] float fireRate = 0.5f;
@@ -24,7 +23,8 @@ public class Gun : MonoBehaviour
 
 	void Awake()
 	{
-		shootingObjectPool = GetComponent<Shoot_ObjectPool>();
+		shootingObjectPool = ProjectilePoolsStorage.instance.GetProjectilePool(projectileType);
+
 		spriteRenderer = GetComponent<SpriteRenderer>();
 
 		ActiveSwitch(isActive);
@@ -52,11 +52,12 @@ public class Gun : MonoBehaviour
 	{
 		canShoot = false;
 
-		GameObject projectile = shootingObjectPool.GetObjectFromPool();
+		Projectile projectile = shootingObjectPool.GetObjectFromPool();
+		projectile.SetInstigator(transform.parent.gameObject);
 
 		if (projectile)
 		{
-			Vector3 positionOffset = new Vector3(transform.position.x, transform.position.y, transform.position.z + zOffset);
+			Vector3 positionOffset = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
 
 			projectile.transform.position = positionOffset;
 			projectile.transform.rotation = transform.rotation;
@@ -86,9 +87,9 @@ public class Gun : MonoBehaviour
 		return isActive;
 	}
 
-	public GunType GetGunType()
+	public ProjectileType GetProjectileType()
 	{
-		return gunType;
+		return projectileType;
 	}	
 
 	public void IncreaseFireRate(float value) // ah it's flipped, so we actually need to decrease the fire rate
@@ -97,4 +98,15 @@ public class Gun : MonoBehaviour
 		fireRate = (newFireRate < 0.02f) ? 0.02f : newFireRate;
 	}
 }
-public enum GunType { Laser, Missile, Bullet, Plasma }
+public enum ProjectileType 
+{
+	BlueLaser_slow,
+	BlueLaser_fast,
+	BlueLaser_Big,
+	OrangeLaser_slow,
+	OrangeLaser_fast,
+	OrangeLaser_Big,
+	RedLaser_slow,
+	RedLaser_fast,
+	RedLaser_Big
+}

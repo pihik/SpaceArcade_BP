@@ -19,9 +19,8 @@ public class FPSChecker : MonoBehaviour
 	void Start()
     {
 		filePath = Path.Combine(Application.persistentDataPath, "fps_log.csv");
-		Debug.Log("FPS Log Path: " + filePath); // Skontroluj cestu v konzole
+		Debug.Log("FPS Log Path: " + filePath);
 
-		// Vytvorí súbor, ak neexistuje, a pridá hlavièku
 		if (!File.Exists(filePath))
 		{
 			using (StreamWriter writer = new StreamWriter(filePath, false))

@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 928946115452741808}
   - component: {fileID: 2373851043561593102}
   - component: {fileID: 3265959101762502035}
-  - component: {fileID: 662936894193434440}
   m_Layer: 7
-  m_Name: BigGun2
+  m_Name: R_BigGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,10 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zOffset: 0
-  gunType: 3
+  projectileType: 8
   fireRate: 3
   isActive: 1
-  shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
+  shootSound: {fileID: 8300000, guid: 03c169940fe861d48a9d8362fd018ba0, type: 3}
 --- !u!212 &3265959101762502035
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -106,18 +105,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &662936894193434440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393667525472866316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b171f605b5e8c742a5899c60bbb959c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 6019779510196939762, guid: 917686312689b5a4b9d9875004226687,
-    type: 3}
-  poolSize: 5

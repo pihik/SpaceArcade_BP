@@ -42,10 +42,11 @@ public class Boss : AdvancedEnemy
 	void InitializeGuns()
 	{
 		gunsList.Add(guns);
-		AddGunsToList(GetGunOnType(GunType.Laser));
-		AddGunsToList(GetGunOnType(GunType.Missile));
-		AddGunsToList(GetGunOnType(GunType.Bullet));
-		AddGunsToList(GetGunOnType(GunType.Plasma));
+
+		foreach (ProjectileType type in Enum.GetValues(typeof(ProjectileType)))
+		{
+			AddGunsToList(GetGunOnType(type));
+		}
 	}
 
 	void AddGunsToList(Gun[] guns)
@@ -111,8 +112,8 @@ public class Boss : AdvancedEnemy
 		return new Vector2(randomX, randomY);
 	}
 
-	Gun[] GetGunOnType(GunType gunType)
+	Gun[] GetGunOnType(ProjectileType gunType)
 	{
-		return Array.FindAll(guns, gun => gun.GetGunType() == gunType);
+		return Array.FindAll(guns, gun => gun.GetProjectileType() == gunType);
 	}
 }
