@@ -1,157 +1,275 @@
+using TMPro;
+using TMPro.Examples;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_GameManager : MonoBehaviour
 {
-    #region Singleton
-    public static UI_GameManager instance;
-    void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
-        //DontDestroyOnLoad(gameObject); we need object this in every level for new references
-    }
-    #endregion
+	#region Singleton
+	public static UI_GameManager instance;
+	void Awake()
+	{
+		if (instance != null && instance != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		instance = this;
+		//DontDestroyOnLoad(gameObject); we need object this in every level for new references
+	}
+	#endregion
 
-    [SerializeField] GameObject gameOverObject;
-    [SerializeField] Text levelInfoText;
+	[Header("Canvases")]
+	[SerializeField] Canvas gameCanvas;
+	[SerializeField] Canvas helperCanvas;
+	[SerializeField] Canvas importantCanvas;
+	[SerializeField] Canvas consoleCanvas;
 
-    [SerializeField] Button[] buttons;
+	[SerializeField] Button[] buttons;
 
-    [Header ("Upper texts")]
-    [SerializeField] Text levelText;
-    [SerializeField] Text scoreText;
-    [SerializeField] Text healthText;
+	[Header("Game texts")]
+	[SerializeField] Text levelInfoText;
+	[SerializeField] TextMeshProUGUI FpsText;
 
-    Canvas canvas;
+	[Header("Important button texts")]
+	[SerializeField] Text levelText;
+	[SerializeField] Text scoreText;
+	[SerializeField] Text healthText;
 
-    bool canPressEscape;
+	bool canPressEscape;
+	TMP_InputField consoleInputField;
 
-    void OnEnable()
-    {
-        GameManager.instance.OnScoreChange += ScoreTextChange;
-        PlayersAttributeComponent.OnHealthChange += HealthTextChange;
-        PlayersAttributeComponent.OnPlayerDestroy += OnPlayerDestroy;
-    }
+	void OnEnable()
+	{
+		GameManager.instance.OnScoreChange += ScoreTextChange;
+		PlayersAttributeComponent.OnHealthChange += HealthTextChange;
+		PlayersAttributeComponent.OnPlayerDestroy += OnPlayerDestroy;
+	}
 
-    void Start()
-    {
-        canvas = GetComponent<Canvas>();
+	void Start()
+	{
+		if (LevelLoader.instance.IsLastScene())
+		{
+			HandleLastScene();
+			return;
+		}
 
-        if (LevelLoader.instance.IsLastScene())
-        {
-            HandleLastScene();
-            return;
-        }
+		OnSceneChange();
 
-        OnSceneChange();
-    }
+		consoleInputField = consoleCanvas.GetComponentInChildren<TMP_InputField>();
+		if (!consoleInputField)
+		{
+			Debug.LogError("Console input field is not assigned in the inspector");
+		}
+		consoleInputField.onSubmit.AddListener(ProcessCommand);
+	}
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && canPressEscape)
-        {
-            EscapeSwitch();
-        }
-    }
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape) && canPressEscape)
+		{
+			EscapeSwitch();
+		}
 
-    void OnSceneChange()
-    {
-        int currentScore = GameManager.instance.GetScore();
+		if (Input.GetKeyDown(KeyCode.BackQuote))
+		{
+			ConsoleSwitch();
+		}
+	}
 
-        ScoreTextChange(currentScore);
+	void OnSceneChange()
+	{
+		int currentScore = GameManager.instance.GetScore();
+		ScoreTextChange(currentScore);
 
-        string level = LevelLoader.instance.GetActiveSceneInt().ToString();
+		string level = LevelLoader.instance.GetActiveSceneInt().ToString();
 
-        levelText.text = level;
-        
-        levelInfoText.text = "Level " + level;
-        levelInfoText.enabled = true;
-        Invoke(nameof(DeactivateLevelText), 3);
-        
-        gameOverObject.SetActive(true);
-        InitializeButtons();
+		levelText.text = level;
 
-        gameOverObject.SetActive(false);
-        canPressEscape = true;
-    }
+		levelInfoText.text = "Level " + level;
+		levelInfoText.enabled = true;
+		Invoke(nameof(DeactivateLevelText), 3);
 
-    void HandleLastScene()
-    {
-        OnPlayerDestroy();
-        InitializeButtons();
-    }
+		importantCanvas.enabled = true;
+		InitializeButtons();
 
-    void OnPlayerDestroy()
-    {
-        canPressEscape = false;
-        gameOverObject.SetActive(true);
-        gameOverObject.transform.GetChild(1).GetComponent<Text>().text = "SCORE: " + GameManager.instance.GetScore().ToString();
-        canvas.sortingOrder = 1000;
-    }
+		importantCanvas.enabled = false;
+		canPressEscape = true;
+	}
 
-    void EscapeSwitch()
-    {
-        bool isEscapeActive = gameOverObject.activeSelf;
+	void ConsoleSwitch()
+	{
+		bool isConsoleActive = consoleCanvas.isActiveAndEnabled;
 
-        gameOverObject.SetActive(!isEscapeActive);
-        Time.timeScale = (isEscapeActive) ? 1 : 0;
-        canvas.sortingOrder = (isEscapeActive) ? 0 : 1000;
-    }
+		consoleCanvas.enabled = !isConsoleActive;
+		consoleInputField.text = "";
+		FpsText.enabled = isConsoleActive;
 
-    void ScoreTextChange(int amount)
-    {
-        scoreText.text = amount.ToString();
-    }
+		if (consoleCanvas.isActiveAndEnabled)
+		{
+			consoleInputField.ActivateInputField();
+		}
+		else
+		{
+			consoleInputField.DeactivateInputField();
+			EventSystem.current.SetSelectedGameObject(null);
+		}
 
-    void HealthTextChange(int amount)
-    {
-        healthText.text = amount.ToString();
-    }
+		Time.timeScale = (!consoleCanvas.isActiveAndEnabled && !importantCanvas.isActiveAndEnabled && !helperCanvas.isActiveAndEnabled) ? 1 : 0;
+	}
 
-    void DeactivateLevelText()
-    {
-        levelInfoText.enabled = false;
-    }
+	void HandleLastScene()
+	{
+		int maxScore = GameManager.instance.GetPlayerMaxScore();
+		int currentScore = GameManager.instance.GetScore();
 
-    void InitializeButtons()
-    {
-        if (buttons.Length < 3)
-        {
-            Debug.LogError("Buttons are not assigned in the inspector");
-            return;
-        }
+		scoreText.text = (currentScore > maxScore) ? "YOUR NEW HIGH SCORE: " + currentScore.ToString() : "TOTAL SCORE: " + currentScore.ToString();
 
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            buttons[i].onClick.RemoveAllListeners();
+		OnPlayerDestroy();
+		InitializeButtons();
+	}
 
-            switch (i)
-            {
-                case 0:
-                    buttons[i].GetComponentInChildren<Text>().text = "PLAY AGAIN";
-                    buttons[i].onClick.AddListener(LevelLoader.instance.Restart);
-                    break;
-                case 1:
-                    buttons[i].GetComponentInChildren<Text>().text = "MAIN MENU";
-                    buttons[i].onClick.AddListener(LevelLoader.instance.LoadMainMenu);
-                    break;
-                case 2:
-                    buttons[i].GetComponentInChildren<Text>().text = "QUIT";
-                    buttons[i].onClick.AddListener(LevelLoader.instance.QuitApplication);
-                    break;
-            }
-        }
-    }
+	void OnPlayerDestroy()
+	{
+		canPressEscape = false;
+		if (!importantCanvas)
+		{
+			return;
+		}
+		importantCanvas.enabled = true;
+		importantCanvas.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = "SCORE: " + GameManager.instance.GetScore().ToString();
+	}
 
-    void OnDisable()
-    {
-        GameManager.instance.OnScoreChange -= ScoreTextChange;
-        PlayersAttributeComponent.OnHealthChange -= HealthTextChange;
-        PlayersAttributeComponent.OnPlayerDestroy -= OnPlayerDestroy;
-    }
+	void EscapeSwitch()
+	{
+		bool isEscapeActive = importantCanvas.isActiveAndEnabled;
+
+		importantCanvas.enabled = !isEscapeActive;
+		helperCanvas.gameObject.SetActive(isEscapeActive);
+		levelInfoText.enabled = isEscapeActive;
+
+		if (consoleCanvas.isActiveAndEnabled)
+		{
+			consoleCanvas.enabled = false;
+		}
+
+		Time.timeScale = (!importantCanvas.isActiveAndEnabled && !helperCanvas.isActiveAndEnabled && !consoleCanvas.isActiveAndEnabled) ? 1 : 0;
+	}
+
+	void ScoreTextChange(int amount)
+	{
+		scoreText.text = amount.ToString();
+	}
+
+	void HealthTextChange(int amount)
+	{
+		healthText.text = amount.ToString();
+	}
+
+	void DeactivateLevelText()
+	{
+		levelInfoText.enabled = false;
+	}
+
+	void InitializeButtons()
+	{
+		if (buttons.Length < 3)
+		{
+			Debug.LogError("Buttons are not assigned in the inspector");
+			return;
+		}
+
+		for (int i = 0; i < buttons.Length; i++)
+		{
+			buttons[i].onClick.RemoveAllListeners();
+
+			switch (i)
+			{
+				case 0:
+					buttons[i].GetComponentInChildren<Text>().text = "PLAY AGAIN";
+					buttons[i].onClick.AddListener(LevelLoader.instance.Restart);
+					break;
+				case 1:
+					buttons[i].GetComponentInChildren<Text>().text = "MAIN MENU";
+					buttons[i].onClick.AddListener(LevelLoader.instance.LoadMainMenu);
+					break;
+				case 2:
+					buttons[i].GetComponentInChildren<Text>().text = "QUIT";
+					buttons[i].onClick.AddListener(LevelLoader.instance.QuitApplication);
+					break;
+			}
+		}
+	}
+
+	void ProcessCommand(string command)
+	{
+		if (string.IsNullOrWhiteSpace(command))
+		{
+			ConsoleSwitch();
+			return;
+		}
+
+		string[] args = command.Split(' ');
+		string cmd = args[0].ToLower();
+
+		switch (cmd)
+		{
+			case "/loadlevel":
+				if (args.Length > 1 && int.TryParse(args[1], out int levelIndex))
+				{
+					Debug.Log("Loading level: " + levelIndex);
+					if (levelIndex < 0 || levelIndex >= LevelLoader.instance.GetSceneCount() - 1)
+					{
+						Debug.Log("Level index out of range!");
+						return;
+					}
+					LevelLoader.instance.LoadLevel(levelIndex);
+				}
+				else
+				{
+					Debug.Log("Command not found!");
+				}
+				break;
+			case "/godmode":
+				if (args.Length > 1)
+				{
+					bool isImmortal;
+
+					if (bool.TryParse(args[1], out isImmortal))
+					{
+						Debug.Log("God mode " + (isImmortal ? "activated!" : "deactivated!"));
+						InGameHelper.instance.GetPlayer().GetAttributeComponent().SetIsImmortal(isImmortal);
+					}
+					else
+					{
+						Debug.LogWarning("Invalid godmode value! Use: /godmode true or /godmode false");
+					}
+				}
+				else
+				{
+					Debug.Log("Command not found!");
+				}
+				break;
+			case "/activateweapons":
+				InGameHelper.instance.GetPlayer().ActivateAllGuns();
+				break;
+			default:
+				Debug.Log("Unknown command: " + command);
+				break;
+		}
+		ConsoleSwitch();
+	}
+
+	public bool IsConsoleActive()
+	{
+		return consoleCanvas.isActiveAndEnabled;
+	}
+
+	void OnDisable()
+	{
+		GameManager.instance.OnScoreChange -= ScoreTextChange;
+		PlayersAttributeComponent.OnHealthChange -= HealthTextChange;
+		PlayersAttributeComponent.OnPlayerDestroy -= OnPlayerDestroy;
+	}
 }

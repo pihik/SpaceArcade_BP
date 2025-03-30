@@ -305,8 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab47acfdea42d584796e78d137c35f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zOffset: 0
-  gunType: 0
+  yOffset: 0
+  projectileType: 0
   fireRate: 3
   isActive: 1
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
@@ -380,6 +380,7 @@ MonoBehaviour:
   objectPrefab: {fileID: 6019779510196939762, guid: 586d77314b86dea4fa32fc6514381b11,
     type: 3}
   poolSize: 5
+  projectileType: 0
 --- !u!1 &3100294341922865767
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,8 +427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab47acfdea42d584796e78d137c35f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zOffset: 0
-  gunType: 0
+  yOffset: 0
+  projectileType: 0
   fireRate: 3
   isActive: 1
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
@@ -501,6 +502,7 @@ MonoBehaviour:
   objectPrefab: {fileID: 6019779510196939762, guid: 586d77314b86dea4fa32fc6514381b11,
     type: 3}
   poolSize: 5
+  projectileType: 0
 --- !u!1 &3332397454944302611
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,7 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7bd338272ac4f49b69b4d51ad91a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthAmount: 10000
+  healthAmount: 1
 --- !u!58 &8700228057238825307
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -750,8 +752,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab47acfdea42d584796e78d137c35f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zOffset: 0
-  gunType: 0
+  yOffset: 0
+  projectileType: 0
   fireRate: 3
   isActive: 1
   shootSound: {fileID: 8300000, guid: 5e077d95faffe63479353abbb4357cdc, type: 3}
@@ -825,6 +827,7 @@ MonoBehaviour:
   objectPrefab: {fileID: 6019779510196939762, guid: 586d77314b86dea4fa32fc6514381b11,
     type: 3}
   poolSize: 5
+  projectileType: 0
 --- !u!1 &6947174134255074199
 GameObject:
   m_ObjectHideFlags: 0

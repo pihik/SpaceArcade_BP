@@ -24,7 +24,6 @@ public class Gun : MonoBehaviour
 	void Awake()
 	{
 		shootingObjectPool = ProjectilePoolsStorage.instance.GetProjectilePool(projectileType);
-
 		spriteRenderer = GetComponent<SpriteRenderer>();
 
 		ActiveSwitch(isActive);

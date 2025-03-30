@@ -4,70 +4,70 @@ using UnityEngine;
 [RequireComponent(typeof(PlayersAttributeComponent))]
 public class Player : SpaceshipBase
 {
-    public Action onSpacePressed; 
+	public Action onSpacePressed; 
 
-    [Header("Setup your player")]
-    [SerializeField] float thrustSpeed = 3f;
-    [SerializeField] float rotationSpeed = 1f;
+	[Header("Setup your player")]
+	[SerializeField] float thrustSpeed = 3f;
+	[SerializeField] float rotationSpeed = 1f;
 
-    AudioSource audioSource;
-    PlayersAttributeComponent playersAttributeComponent;
+	AudioSource audioSource;
+	PlayersAttributeComponent playersAttributeComponent;
 	Camera mainCamera;
 
 	bool disabledMovement = false;
 
-    protected override void Awake()
-    {
-        base.Awake();
+	protected override void Awake()
+	{
+		base.Awake();
 
-        playersAttributeComponent = GetComponent<PlayersAttributeComponent>(); 
-        audioSource = GetComponent<AudioSource>();
+		playersAttributeComponent = GetComponent<PlayersAttributeComponent>(); 
+		audioSource = GetComponent<AudioSource>();
 		mainCamera = Camera.main;
 
 		if (!playersAttributeComponent || !audioSource || !mainCamera)
-        {
-            Debug.LogError("[PlayerScript::Awake] Something went wrong, check on: " + name);
-        }
+		{
+			Debug.LogError("[PlayerScript::Awake] Something went wrong, check on: " + name);
+		}
 
-        playersAttributeComponent.OnZeroHealth += ZeroHealth;
-    }
-    protected override void Start()
-    {
-        base.Start();
+		playersAttributeComponent.OnZeroHealth += ZeroHealth;
+	}
+	protected override void Start()
+	{
+		base.Start();
 
-        HandleThrustAudio(false);
-    }
+		HandleThrustAudio(false);
+	}
 
-    void Update()
-    {
-        if (disabledMovement || Time.timeScale == 0)
-        {
-            return;
-        }
+	void Update()
+	{
+		if (disabledMovement || Time.timeScale == 0)
+		{
+			return;
+		}
 
-        Move();
-        Rotate();
+		Move();
+		Rotate();
 
-        HandleShootInput();
-    }
+		HandleShootInput();
+	}
 
-    void Move()
-    {
-        float verticalInputs = Input.GetAxis("Vertical") * thrustSpeed * Time.deltaTime; ;
-        Vector3 thrust = new Vector3(0, verticalInputs, 0);
+	void Move()
+	{
+		float verticalInputs = Input.GetAxis("Vertical") * thrustSpeed * Time.deltaTime; ;
+		Vector3 thrust = new Vector3(0, verticalInputs, 0);
 
-        HandleThrustAudio(verticalInputs > 0);
-        transform.Translate(thrust, Space.Self);
+		HandleThrustAudio(verticalInputs > 0);
+		transform.Translate(thrust, Space.Self);
 
-        KeepPlayerInBounds();
-    }
+		KeepPlayerInBounds();
+	}
 
-    void Rotate()
-    {
-        float horizontalInputs = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
+	void Rotate()
+	{
+		float horizontalInputs = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
 
-        transform.Rotate(0, 0, -horizontalInputs);
-    }
+		transform.Rotate(0, 0, -horizontalInputs);
+	}
 
 	void KeepPlayerInBounds()
 	{
@@ -81,8 +81,8 @@ public class Player : SpaceshipBase
 		transform.position = position;
 	}
 
-    void HandleShootInput()
-    {
+	void HandleShootInput()
+	{
 		if (Input.GetKey(KeyCode.Space))
 		{
 			onSpacePressed?.Invoke();
@@ -94,82 +94,93 @@ public class Player : SpaceshipBase
 	}
 
 	public PlayersAttributeComponent GetAttributeComponent()
-    {
-        return playersAttributeComponent;
-    }
+	{
+		return playersAttributeComponent;
+	}
 
-    public void AddGun()
-    {
-        bool allGunsActivated = true;
+	public void AddGun()
+	{
+		bool allGunsActivated = true;
 
-        foreach (Gun gun in guns)
-        {
-            if (!gun.IsActivate())
-            {
-                gun.ActiveSwitch(true);
-                allGunsActivated = false;
-                break;
-            }
-        }
+		foreach (Gun gun in guns)
+		{
+			if (!gun.IsActivate())
+			{
+				gun.ActiveSwitch(true);
+				allGunsActivated = false;
+				break;
+			}
+		}
 
-        if (allGunsActivated)
-        {
-            foreach (Gun gun in guns)
-            {
-                gun.IncreaseFireRate(0.03f);
-            }
-        }
-    }
+		if (allGunsActivated)
+		{
+			foreach (Gun gun in guns)
+			{
+				gun.IncreaseFireRate(0.03f);
+			}
+		}
+	}
 
-    public void SetIsAbandoned(bool isAbandoned)
-    {
-        if (!isAbandoned)
-        {
-            InGameHelper.instance.SetPlayer(this);
-        }
+	public void ActivateAllGuns()
+	{
+		foreach (Gun gun in guns)
+		{
+			if (!gun.IsActivate())
+			{
+				gun.ActiveSwitch(true);
+			}
+		}
+	}
 
-        disabledMovement = isAbandoned;
-        playersAttributeComponent.SetIsImmortal(isAbandoned);
-        HandleThrustAudio(false);
-    }
+	public void SetIsAbandoned(bool isAbandoned)
+	{
+		if (!isAbandoned)
+		{
+			InGameHelper.instance.SetPlayer(this);
+		}
 
-    public void ChangeShip(Player newShip)
-    {
-        SetIsAbandoned(true);
-        SetCollision(false);
-        newShip.SetIsAbandoned(false);
-    }
+		disabledMovement = isAbandoned;
+		playersAttributeComponent.SetIsImmortal(isAbandoned);
+		HandleThrustAudio(false);
+	}
 
-    public void SetCollision(bool value)
-    {
-        myCollider.enabled = value;
-    }
+	public void ChangeShip(Player newShip)
+	{
+		SetIsAbandoned(true);
+		SetCollision(false);
+		newShip.SetIsAbandoned(false);
+	}
 
-    void HandleThrustAudio(bool isMovingForward)
-    {
-        if (!audioSource.isPlaying && isMovingForward)
-        {
-            audioSource.Play();
-        }
-        else if (audioSource.isPlaying && !isMovingForward)
-        {
-            audioSource.Stop();
-        }
-    }
+	public void SetCollision(bool value)
+	{
+		myCollider.enabled = value;
+	}
 
-    protected override void ZeroHealth()
-    {
-        base.ZeroHealth();
+	void HandleThrustAudio(bool isMovingForward)
+	{
+		if (!audioSource.isPlaying && isMovingForward)
+		{
+			audioSource.Play();
+		}
+		else if (audioSource.isPlaying && !isMovingForward)
+		{
+			audioSource.Stop();
+		}
+	}
 
-        Time.timeScale = 0;
-        PlayersAttributeComponent.OnPlayerDestroy?.Invoke();
+	protected override void ZeroHealth()
+	{
+		base.ZeroHealth();
 
-        gameObject.SetActive(false);
-        //Destroy(gameObject);
-    }
+		Time.timeScale = 0;
+		PlayersAttributeComponent.OnPlayerDestroy?.Invoke();
 
-    void OnDisable()
-    {
-        playersAttributeComponent.OnZeroHealth -= ZeroHealth;
-    }
+		gameObject.SetActive(false);
+		//Destroy(gameObject);
+	}
+
+	void OnDisable()
+	{
+		playersAttributeComponent.OnZeroHealth -= ZeroHealth;
+	}
 }

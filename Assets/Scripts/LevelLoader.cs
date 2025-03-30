@@ -29,6 +29,18 @@ public class LevelLoader : MonoBehaviour
 		OnLevelLoaded?.Invoke(levelIndex);
 	}
 
+	public void LoadLevel(int level)
+	{
+		if (level < 1 || level > GetSceneCount() - 1)
+		{
+			Debug.LogError("[LevelLoader::LoadLevel] Level index out of range: " + level);
+			return;
+		}
+
+		SceneManager.LoadScene(level);
+		OnLevelLoaded?.Invoke(level);
+	}
+
 	public void Restart()
 	{
 		Time.timeScale = 1;
@@ -57,5 +69,10 @@ public class LevelLoader : MonoBehaviour
 	public bool IsLastScene()
 	{
 		return GetActiveSceneInt() == SceneManager.sceneCountInBuildSettings - 1;
+	}
+
+	public int GetSceneCount()
+	{
+		return SceneManager.sceneCountInBuildSettings;
 	}
 }

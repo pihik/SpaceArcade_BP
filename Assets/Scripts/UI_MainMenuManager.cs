@@ -6,106 +6,109 @@ using UnityEngine.UI;
 
 public class UI_MainMenuManager : MonoBehaviour
 {
-    public static Action OnNameSet;
+	public static Action OnNameSet;
 
-    [SerializeField] GameObject setNameCanvas;
-    [SerializeField] TMP_InputField nameInputField;
-    [SerializeField] Text messageText;
-    [SerializeField] Button playButton;
-    [SerializeField] Button SoundButton;
+	[SerializeField] TMP_InputField nameInputField;
+	[SerializeField] Text messageText;
+	[SerializeField] Button playButton;
+	[SerializeField] Button SoundButton;
 
-    //******************************************** maybe add functionality for add new player and current player will be set to scoreboard ********************************************
+	//******************************************** maybe add functionality for add new player and current player will be set to scoreboard ********************************************
 
-    string soundON = "SOUND <color=green>ON</color>";
-    string soundOFF = "SOUND <color=red>OFF</color>";
+	string soundON = "SOUND <color=green>ON</color>";
+	string soundOFF = "SOUND <color=red>OFF</color>";
 
-    Text soundText;
+	Text soundText;
 
-    void Start()
-    {
-        soundText = SoundButton.GetComponentInChildren<Text>();
+	void Start()
+	{
+		soundText = SoundButton.GetComponentInChildren<Text>();
 
-        CheckIfNameIsSet();
-        InitializeButtons();
-    }
+		CheckIfNameIsSet();
+		InitializeButtons();
+	}
 
-    public void CheckIfNameIsSet()
-    {
-        if (!PlayerPrefs.HasKey("PlayerName"))
-        {
-            StartCoroutine(ShowMessage("Welcome firstly you need to select your name!"));
-        }
-        else
-        {
-            StartCoroutine(ShowMessage("Welcome back " + PlayerPrefs.GetString("PlayerName") + "!"));
-        }
+	public void CheckIfNameIsSet()
+	{
+		if (!PlayerPrefs.HasKey("PlayerName"))
+		{
+			StartCoroutine(ShowMessage("Welcome firstly you need to select your name!"));
+		}
+		else
+		{
+			StartCoroutine(ShowMessage("Welcome back " + PlayerPrefs.GetString("PlayerName") + "!"));
+		}
+	}
 
-        ToggleNameSet();
-    }
+	public void SetName()
+	{
+		string newName = nameInputField.text;
 
-    public void SetName()
-    {
-        if (string.IsNullOrEmpty(nameInputField.text))
-        {
-            StartCoroutine(WiggleInputField());
-            return;
-        }
+		if (string.IsNullOrEmpty(newName))
+		{
+			StartCoroutine(WiggleInputField());
+			return;
+		}
 
-        PlayerPrefs.SetString("PlayerName", nameInputField.text);
-        PlayerPrefs.Save();
+		if (PlayerPrefs.GetString("PlayerName", "") == newName)
+		{
+			StartCoroutine(ShowMessage("This name is already in use! Please choose another."));
+			return;
+		}
 
-        ToggleNameSet();
-        StartCoroutine(ShowMessage("Welcome " + nameInputField.text + "!"));
+		PlayerPrefs.SetString("PlayerName", newName);
+		PlayerPrefs.Save();
 
-        OnNameSet?.Invoke();
-    }
+		StartCoroutine(ShowMessage("Welcome " + newName + "!"));
 
-    public void ToggleNameSet()
-    {
-        bool value = setNameCanvas.activeSelf;
-        setNameCanvas.SetActive(!value);
-        playButton.gameObject.SetActive(value);
-    }
+		GameManager.instance.SetScore(0);
+		OnNameSet?.Invoke();
+	}
 
-    void InitializeButtons()
-    {
-        playButton.onClick.RemoveAllListeners();
-        playButton.onClick.AddListener(LevelLoader.instance.LoadNextScene);
+	public void SetNameToPlaceholder()
+	{
+		nameInputField.text = PlayerPrefs.GetString("PlayerName");
+	}
 
-        SoundButton.onClick.RemoveAllListeners();
-        SoundButton.onClick.AddListener(AudioManager.instance.ToggleSound);
-        SoundButton.onClick.AddListener(UpdateSoundText);
-    }
+	void InitializeButtons()
+	{
+		playButton.onClick.RemoveAllListeners();
+		playButton.onClick.AddListener(LevelLoader.instance.LoadNextScene);
 
-    void UpdateSoundText()
-    {
-        soundText.text = AudioManager.instance.IsMusicPlaying() ? soundON : soundOFF;
-    }
+		SoundButton.onClick.RemoveAllListeners();
+		SoundButton.onClick.AddListener(AudioManager.instance.ToggleSound);
+		SoundButton.onClick.AddListener(UpdateSoundText);
+	}
 
-    IEnumerator WiggleInputField()
-    {
-        Vector3 originalPosition = nameInputField.transform.localPosition;
-        float wiggleDuration = 0.3f;
-        float wiggleSpeed = 20f;
-        float elapsed = 0.0f;
+	void UpdateSoundText()
+	{
+		soundText.text = AudioManager.instance.IsMusicPlaying() ? soundON : soundOFF;
+	}
 
-        while (elapsed < wiggleDuration)
-        {
-            float x = Mathf.Sin(elapsed * wiggleSpeed) * 10f;
-            nameInputField.transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y, originalPosition.z);
+	IEnumerator WiggleInputField()
+	{
+		Vector3 originalPosition = nameInputField.transform.localPosition;
+		float wiggleDuration = 0.3f;
+		float wiggleSpeed = 20f;
+		float elapsed = 0.0f;
 
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
+		while (elapsed < wiggleDuration)
+		{
+			float x = Mathf.Sin(elapsed * wiggleSpeed) * 10f;
+			nameInputField.transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y, originalPosition.z);
 
-        nameInputField.transform.localPosition = originalPosition; // Reset to original position
-    }
+			elapsed += Time.deltaTime;
+			yield return null;
+		}
 
-    IEnumerator ShowMessage(string message)
-    {
-        messageText.text = message;
-        messageText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        messageText.gameObject.SetActive(false);
-    }
+		nameInputField.transform.localPosition = originalPosition; // Reset to original position
+	}
+
+	IEnumerator ShowMessage(string message)
+	{
+		messageText.text = message;
+		messageText.gameObject.SetActive(true);
+		yield return new WaitForSeconds(3f);
+		messageText.gameObject.SetActive(false);
+	}
 }

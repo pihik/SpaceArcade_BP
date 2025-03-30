@@ -3,120 +3,120 @@ using UnityEngine.UI;
 
 public class AstronautHelper : MonoBehaviour
 {
-    public static AstronautHelper instance;
+	public static AstronautHelper instance;
 
-    [SerializeField] string[] texts;
+	[SerializeField] string[] texts;
 
-    Text myText;
-    Canvas canvas;
+	Text myText;
+	Canvas canvas;
 
-    int textIndex = 0;
-    int amountOfTexts;
+	int textIndex = 0;
+	int amountOfTexts;
 
-    bool canPressContinue = true;
+	bool canPressContinue = true;
 
-    void OnEnable()
-    {
-        GameManager.instance.OnEnemiesDestroyed += ShowLastTexts;
-    }
+	void OnEnable()
+	{
+		GameManager.instance.OnEnemiesDestroyed += ShowLastTexts;
+	}
 
-    void Awake()
-    {
-        instance = this;
+	void Awake()
+	{
+		instance = this;
 
-        canvas = GetComponentInParent<Canvas>();
-        myText = GetComponentInChildren<Text>();
+		canvas = GetComponentInParent<Canvas>();
+		myText = GetComponentInChildren<Text>();
 
-        if (!canvas || !myText)
-        {
-            Debug.LogError("[AsteroidHelper::Start] Something went wrong, check on: " + gameObject.name);
-        }
-    }
+		if (!canvas || !myText)
+		{
+			Debug.LogError("[AsteroidHelper::Start] Something went wrong, check on: " + gameObject.name);
+		}
+	}
 
-    void Start()
-    {
-        amountOfTexts = texts.Length;
+	void Start()
+	{
+		amountOfTexts = texts.Length;
 
-        CheckForText();
-    }
+		CheckForText();
+	}
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !canPressContinue)
-        {
-            canPressContinue = true;
-            OnContinuePressed();
-            return;
-        }
-        canPressContinue = false;
-    }
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space) && !canPressContinue && !UI_GameManager.instance.IsConsoleActive())
+		{
+			canPressContinue = true;
+			OnContinuePressed();
+			return;
+		}
+		canPressContinue = false;
+	}
 
-    public void ShowNewText()
-    {
-        textIndex++;
-        CheckForText();
-    }
+	public void ShowNewText()
+	{
+		textIndex++;
+		CheckForText();
+	}
 
-    void ShowLastTexts() // it can be also handled through ShowNextText, but this is safer in case of different events
-    {
-        for (int i = amountOfTexts - 1; i >= 0; i--)
-        {
-            if (texts[i].Length == 0) // if we found empty text from end to start, that means we found end level texts
-            {
-                textIndex = ++i;
-                CheckForText();
-                break;
-            }
-        }
-    }
+	void ShowLastTexts() // it can be also handled through ShowNextText, but this is safer in case of different events
+	{
+		for (int i = amountOfTexts - 1; i >= 0; i--)
+		{
+			if (texts[i].Length == 0) // if we found empty text from end to start, that means we found end level texts
+			{
+				textIndex = ++i;
+				CheckForText();
+				break;
+			}
+		}
+	}
 
-    void CheckForText()
-    {
-        // if there is no text, disable canvas, otherwise show the first text
-        if (!IsValidIndex(textIndex))
-        {
-            Debug.Log("[AsteroidHelper::CheckForText] Index is not valid, loading next scene");
-            LevelLoader.instance.LoadNextScene();
-            return;
-        }
+	void CheckForText()
+	{
+		// if there is no text, disable canvas, otherwise show the first text
+		if (!IsValidIndex(textIndex))
+		{
+			Debug.Log("[AsteroidHelper::CheckForText] Index is not valid, loading next scene");
+			LevelLoader.instance.LoadNextScene();
+			return;
+		}
 
-        if (!canvas)
-        {
-            Debug.Log("[AsteroidHelper::CheckForText] Canvas is not valid, returning");
-            return;
-        }
+		if (!canvas)
+		{
+			Debug.Log("[AsteroidHelper::CheckForText] Canvas is not valid, returning");
+			return;
+		}
 
-        if (texts[textIndex].Length == 0)
-        {
-            Time.timeScale = 1;
-            canvas.enabled = false;
-            return;
-        }
+		if (texts[textIndex].Length == 0)
+		{
+			Time.timeScale = 1;
+			canvas.enabled = false;
+			return;
+		}
 
-        Time.timeScale = 0;
-        canvas.enabled = true;
-        myText.text = texts[textIndex];
+		Time.timeScale = 0;
+		canvas.enabled = true;
+		myText.text = texts[textIndex];
 
-        textIndex++;
-    }
+		textIndex++;
+	}
 
-    bool IsValidIndex(int index)
-    {
-        bool isValid = (index >= amountOfTexts) ? false : true;
+	bool IsValidIndex(int index)
+	{
+		bool isValid = (index >= amountOfTexts) ? false : true;
 
-        return isValid;
-    }
+		return isValid;
+	}
 
-    void OnContinuePressed()
-    {
-        if (canvas.enabled)
-        {
-            CheckForText();
-        }
-    }
+	void OnContinuePressed()
+	{
+		if (canvas.enabled)
+		{
+			CheckForText();
+		}
+	}
 
-    void OnDisable()
-    {
-        //GameManager.instance.OnEnemiesDestroyed -= ShowLastTexts;
-    }
+	void OnDisable()
+	{
+		//GameManager.instance.OnEnemiesDestroyed -= ShowLastTexts;
+	}
 }

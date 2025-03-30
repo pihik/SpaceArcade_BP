@@ -60,7 +60,6 @@ public class Boss : AdvancedEnemy
 	protected override void Shoot()
 	{
 		int randomGunTypeIndex = UnityEngine.Random.Range(0, gunsList.Count);
-
 		guns = gunsList[randomGunTypeIndex];
 
 		base.Shoot();
@@ -81,15 +80,6 @@ public class Boss : AdvancedEnemy
 		}
 	}
 
-	IEnumerator MoveToPosition(Vector2 targetPosition)
-	{
-		while ((Vector2)transform.position != targetPosition)
-		{
-			transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-			yield return null;
-		}
-	}
-
 	IEnumerator ShieldRecharging()
 	{
 		while (true)
@@ -98,6 +88,15 @@ public class Boss : AdvancedEnemy
 			yield return new WaitForSeconds(shieldTime);
 
 			shieldComponent.ActivateShield(shieldTime);
+		}
+	}
+
+	IEnumerator MoveToPosition(Vector2 targetPosition)
+	{
+		while ((Vector2)transform.position != targetPosition)
+		{
+			transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+			yield return null;
 		}
 	}
 

@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: GameDevAP
   productName: SpaceDefenderArcade
-  defaultCursor: {fileID: 2800000, guid: fa621218ef4f5184d95d7c8c68874a4c, type: 3}
-  cursorHotspot: {x: 0, y: 0}
+  defaultCursor: {fileID: 2800000, guid: 4412815918992944bb795318eb0d00d0, type: 3}
+  cursorHotspot: {x: 150, y: 150}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1

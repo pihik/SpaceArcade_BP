@@ -1672,7 +1672,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 155
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2179,7 +2179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 150.3067, y: -364}
+  m_AnchoredPosition: {x: 0, y: -364}
   m_SizeDelta: {x: 1575.3866, y: 78.599976}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7200970642211942074
@@ -2231,14 +2231,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb5893d119923641afee30a57edd12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverObject: {fileID: 7759447483344697858}
-  levelInfoText: {fileID: 0}
+  gameCanvas: {fileID: 0}
+  helperCanvas: {fileID: 0}
+  importantCanvas: {fileID: 0}
+  consoleCanvas: {fileID: 0}
   buttons:
   - {fileID: 6319870937382920697}
   - {fileID: 1219248929059453483}
   - {fileID: 1420759112858230613}
+  levelInfoText: {fileID: 0}
+  FpsText: {fileID: 0}
   levelText: {fileID: 0}
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 4941022094167448666}
   healthText: {fileID: 0}
 --- !u!224 &7633210205223700676
 RectTransform:

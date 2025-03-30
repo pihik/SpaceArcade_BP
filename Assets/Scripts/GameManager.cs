@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -30,6 +31,11 @@ public class GameManager : MonoBehaviour
 	int numberOfEnemies;
 	int scoreAmount = 0;
 
+	void Start()
+	{
+		LevelLoader.instance.OnLevelLoaded += SaveScoreToCurrentPlayer;
+	}
+
 	public void SetScore(int scoreAmount)
 	{
 		this.scoreAmount = scoreAmount;
@@ -46,6 +52,18 @@ public class GameManager : MonoBehaviour
 		return scoreAmount;
 	}
 
+	public int GetPlayerMaxScore()
+	{
+		string playerName = PlayerPrefs.GetString("PlayerName", "");
+		if (string.IsNullOrEmpty(playerName))
+		{
+			return 0;
+		}
+		string scoreKey = "Score_" + playerName;
+
+		return PlayerPrefs.GetInt(scoreKey, 0);
+	}
+
 	public void SetNumberOfEnemies(int number)
 	{
 		numberOfEnemies = number;
@@ -60,5 +78,44 @@ public class GameManager : MonoBehaviour
 			Debug.Log("All enemies destroyed!");
 			OnEnemiesDestroyed?.Invoke();
 		}
+	}
+
+	void SaveScoreToCurrentPlayer(int levelIndex)
+	{
+		string playerName = PlayerPrefs.GetString("PlayerName", "");
+		if (string.IsNullOrEmpty(playerName)) return;
+
+		string scoreKey = "Score_" + playerName;
+
+		int savedScore = PlayerPrefs.GetInt(scoreKey, 0);
+		if (scoreAmount > savedScore)
+		{
+			PlayerPrefs.SetInt(scoreKey, scoreAmount);
+			PlayerPrefs.Save();
+		}
+
+		List<string> keys = PlayerPrefsKeys();
+		if (!keys.Contains(scoreKey))
+		{
+			keys.Add(scoreKey);
+			PlayerPrefs.SetString("PlayerPrefsKeys", string.Join("|", keys));
+			PlayerPrefs.Save();
+		}
+	}
+
+	public List<string> PlayerPrefsKeys()
+	{
+		List<string> keys = new List<string>();
+		foreach (var key in PlayerPrefs.GetString("PlayerPrefsKeys", "").Split('|'))
+		{
+			if (!string.IsNullOrEmpty(key))
+				keys.Add(key);
+		}
+		return keys;
+	}
+
+	void OnDisable()
+	{
+		LevelLoader.instance.OnLevelLoaded -= SaveScoreToCurrentPlayer;
 	}
 }

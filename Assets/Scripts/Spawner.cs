@@ -123,12 +123,6 @@ public class Spawner : MonoBehaviour
 
 	protected virtual void OnSpawningObjectsDepleted() { }
 
-	virtual protected void OnDisable()
-	{
-		GameManager.instance.StartSpawning -= StartSpawning;
-		GameManager.instance.StopSpawning -= StopSpawning;
-	}
-
 	Vector3 EnsureInScreenBounds(Vector3 worldPosition)
 	{
 		Vector3 screenPos = Camera.main.WorldToViewportPoint(worldPosition);
@@ -137,5 +131,11 @@ public class Spawner : MonoBehaviour
 		screenPos.y = Mathf.Clamp(screenPos.y, 0.05f, 0.95f);
 
 		return Camera.main.ViewportToWorldPoint(screenPos);
+	}
+
+	virtual protected void OnDisable()
+	{
+		GameManager.instance.StartSpawning -= StartSpawning;
+		GameManager.instance.StopSpawning -= StopSpawning;
 	}
 }

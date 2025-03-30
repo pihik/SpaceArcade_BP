@@ -71,6 +71,10 @@ public class AttributeComponent : MonoBehaviour
 		{
 			HealthDecrease(1, true);
 		}
+		else if (((InGameHelper.instance.GetPlayerLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex))
+		{
+			HealthDecrease(3, true);
+		}
 	}
 
 	IEnumerator ChangeColorForSplitSecond()

@@ -1,6 +1,7 @@
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FPSChecker : MonoBehaviour
 {
@@ -12,14 +13,13 @@ public class FPSChecker : MonoBehaviour
 
 	void Awake()
 	{
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = -1;
+		QualitySettings.vSyncCount = 1;
+		Application.targetFrameRate = 144;
 	}
 
 	void Start()
-    {
+	{
 		filePath = Path.Combine(Application.persistentDataPath, "fps_log.csv");
-		Debug.Log("FPS Log Path: " + filePath);
 
 		if (!File.Exists(filePath))
 		{
@@ -30,8 +30,8 @@ public class FPSChecker : MonoBehaviour
 		}
 	}
 
-    void Update()
-    {
+	void Update()
+	{
 		timer += Time.deltaTime;
 
 		if (timer >= logInterval)
@@ -44,5 +44,19 @@ public class FPSChecker : MonoBehaviour
 
 			File.AppendAllText(filePath, logEntry);
 		}
+	}
+
+	public void VSyncSwitch(Text text)
+	{
+		bool vSyncOff = (QualitySettings.vSyncCount == 0) ? true : false;
+
+		QualitySettings.vSyncCount = (vSyncOff) ? 1 : 0;
+		Application.targetFrameRate = (vSyncOff) ? 144 : -1;
+		text.text = "VSYNC " + ((vSyncOff) ? "<color=green>ON</color>" : "<color=red>OFF</color>");
+	}
+
+	public void TextSwitch(bool bActivate)
+	{
+		fpsText.enabled = bActivate;
 	}
 }
