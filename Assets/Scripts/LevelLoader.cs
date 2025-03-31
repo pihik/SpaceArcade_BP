@@ -44,9 +44,9 @@ public class LevelLoader : MonoBehaviour
 	public void Restart()
 	{
 		Time.timeScale = 1;
-		GameManager.instance.SetScore(0);
 		SceneManager.LoadScene(1);
 		OnLevelLoaded?.Invoke(1);
+		GameManager.instance.SetScore(0);
 	}
 
 	public void LoadMainMenu() 
@@ -54,6 +54,7 @@ public class LevelLoader : MonoBehaviour
 		Time.timeScale = 1;
 		SceneManager.LoadScene("MainMenu");
 		OnLevelLoaded?.Invoke(1);
+		GameManager.instance.SetScore(0);
 	}
 
 	public int GetActiveSceneInt()

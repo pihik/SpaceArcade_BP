@@ -11,6 +11,7 @@ public class UI_MainMenuManager : MonoBehaviour
 	[SerializeField] TMP_InputField nameInputField;
 	[SerializeField] Text messageText;
 	[SerializeField] Button playButton;
+	[SerializeField] Button exitButton;
 	[SerializeField] Button SoundButton;
 
 	//******************************************** maybe add functionality for add new player and current player will be set to scoreboard ********************************************
@@ -73,7 +74,9 @@ public class UI_MainMenuManager : MonoBehaviour
 	void InitializeButtons()
 	{
 		playButton.onClick.RemoveAllListeners();
+		exitButton.onClick.RemoveAllListeners();
 		playButton.onClick.AddListener(LevelLoader.instance.LoadNextScene);
+		exitButton.onClick.AddListener(LevelLoader.instance.QuitApplication);
 
 		SoundButton.onClick.RemoveAllListeners();
 		SoundButton.onClick.AddListener(AudioManager.instance.ToggleSound);

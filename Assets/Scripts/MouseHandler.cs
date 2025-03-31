@@ -19,6 +19,13 @@ public class MouseHandler : MonoBehaviour
 
 	[SerializeField] ParticleSystem clickEffect;
 
+	LayerMask asteroidLayer;
+
+	void Start()
+	{
+		asteroidLayer = InGameHelper.instance.GetAsteroidLayer();
+	}
+
 	void Update()
 	{
 		if (Input.GetMouseButtonDown(0))
@@ -28,6 +35,13 @@ public class MouseHandler : MonoBehaviour
 			mousePosition.z = 0f;
 			clickEffect.transform.position = mousePosition;
 			clickEffect.Play();
+
+			RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, asteroidLayer);
+
+			if (Time.timeScale == 1 && hit && hit.collider.TryGetComponent(out Asteroid asteroidComp))
+			{
+				asteroidComp.OnClicked();
+			}
 		}
 	}
 }

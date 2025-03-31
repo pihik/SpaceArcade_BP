@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Asteroid : MonoBehaviour
@@ -87,6 +85,16 @@ public class Asteroid : MonoBehaviour
 		{
 			asteroidMoveComp.RandomMove(true);
 		}
+	}
+
+	public void OnClicked()
+	{
+		if (asteroidSize > 1)
+		{
+			Scatter();
+		}
+		PlayDestroyClip();
+		Deactivate();
 	}
 
 	public void SetObjectPool(Asteroid_ObjectPool objectPool)

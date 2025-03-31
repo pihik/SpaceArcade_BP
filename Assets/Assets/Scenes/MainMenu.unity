@@ -2608,6 +2608,7 @@ MonoBehaviour:
   nameInputField: {fileID: 1016114115}
   messageText: {fileID: 1905965784}
   playButton: {fileID: 606610071}
+  exitButton: {fileID: 1822147929}
   SoundButton: {fileID: 2103233179}
 --- !u!1 &606610066
 GameObject:
