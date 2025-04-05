@@ -30,7 +30,6 @@ public class UI_GameManager : MonoBehaviour
 
 	[Header("Game texts")]
 	[SerializeField] Text levelInfoText;
-	[SerializeField] TextMeshProUGUI FpsText;
 
 	[Header("Important button texts")]
 	[SerializeField] Text levelText;
@@ -104,7 +103,7 @@ public class UI_GameManager : MonoBehaviour
 
 		consoleCanvas.enabled = !isConsoleActive;
 		consoleInputField.text = "";
-		FpsText.enabled = isConsoleActive;
+		FPSChecker.instance.TextSwitch(isConsoleActive);
 
 		if (consoleCanvas.isActiveAndEnabled)
 		{

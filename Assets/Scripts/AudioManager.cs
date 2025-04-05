@@ -45,12 +45,19 @@ public class AudioManager : MonoBehaviour
 			return;
 		}
 
-		PlayBackgroundAudio(0);
+		LoadAudioSettings();
 	}
 
 	public void ToggleSound()
 	{
 		backgroundAudioSource.mute = !backgroundAudioSource.mute;
+		if (!backgroundAudioSource.isPlaying)
+		{
+			PlayBackgroundAudio(0);
+		}
+
+		PlayerPrefs.SetInt("MusicMuted", backgroundAudioSource.mute ? 1 : 0);
+		PlayerPrefs.Save();
 	}
 
 	void PlayBackgroundAudio(int index)
@@ -86,9 +93,23 @@ public class AudioManager : MonoBehaviour
 		SFXSource.PlayOneShot(clip);
 	}
 
+	void LoadAudioSettings()
+	{
+		int isMuted = PlayerPrefs.GetInt("MusicMuted", 0); // 0 = not muted, 1 = muted
+		if (isMuted == 0)
+		{
+			backgroundAudioSource.mute = false;
+			PlayBackgroundAudio(0);
+		}
+		else
+		{
+			backgroundAudioSource.mute = true;
+		}
+	}
+
 	public bool IsMusicPlaying()
 	{
-		return !backgroundAudioSource.mute;
+		return !backgroundAudioSource.mute && backgroundAudioSource.isPlaying;
 	}
 
 	public void PlayDestroySFX()

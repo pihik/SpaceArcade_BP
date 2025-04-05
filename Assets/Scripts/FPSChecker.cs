@@ -1,24 +1,34 @@
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FPSChecker : MonoBehaviour
 {
+	#region Singleton
+	public static FPSChecker instance;
+
+	void Awake()
+	{
+		if (instance != null && instance != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		instance = this;
+		DontDestroyOnLoad(gameObject);
+	}
+	#endregion
+
 	[SerializeField] TextMeshProUGUI fpsText;
 
 	private string filePath;
 	private float timer = 0f;
 	private float logInterval = 1f;
 
-	void Awake()
-	{
-		QualitySettings.vSyncCount = 1;
-		Application.targetFrameRate = 144;
-	}
-
 	void Start()
 	{
+		LoadSettings();
+
 		filePath = Path.Combine(Application.persistentDataPath, "fps_log.csv");
 
 		if (!File.Exists(filePath))
@@ -46,17 +56,39 @@ public class FPSChecker : MonoBehaviour
 		}
 	}
 
-	public void VSyncSwitch(Text text)
+	public void VSyncSwitch()
 	{
 		bool vSyncOff = (QualitySettings.vSyncCount == 0) ? true : false;
 
 		QualitySettings.vSyncCount = (vSyncOff) ? 1 : 0;
 		Application.targetFrameRate = (vSyncOff) ? 144 : -1;
-		text.text = "VSYNC " + ((vSyncOff) ? "<color=green>ON</color>" : "<color=red>OFF</color>");
+
+		SaveSettings();
 	}
 
 	public void TextSwitch(bool bActivate)
 	{
 		fpsText.enabled = bActivate;
+	}
+
+	void SaveSettings()
+	{
+		PlayerPrefs.SetInt("VSync", QualitySettings.vSyncCount);
+		PlayerPrefs.SetInt("TargetFPS", Application.targetFrameRate);
+		PlayerPrefs.Save();
+	}
+
+	void LoadSettings()
+	{
+		int vsync = PlayerPrefs.GetInt("VSync", 1);
+		int targetFPS = PlayerPrefs.GetInt("TargetFPS", 144);
+
+		QualitySettings.vSyncCount = vsync;
+		Application.targetFrameRate = targetFPS;
+	}
+
+	public bool IsVSyncEnabled()
+	{
+		return QualitySettings.vSyncCount == 1;
 	}
 }

@@ -12,18 +12,24 @@ public class UI_MainMenuManager : MonoBehaviour
 	[SerializeField] Text messageText;
 	[SerializeField] Button playButton;
 	[SerializeField] Button exitButton;
-	[SerializeField] Button SoundButton;
+	[SerializeField] Button soundButton;
+	[SerializeField] Button vSyncButton;
 
 	//******************************************** maybe add functionality for add new player and current player will be set to scoreboard ********************************************
 
 	string soundON = "SOUND <color=green>ON</color>";
 	string soundOFF = "SOUND <color=red>OFF</color>";
 
+	string vSyncON = "VSYNC <color=green>ON</color>";
+	string vSyncOFF = "VSYNC <color=red>OFF</color>";
+
 	Text soundText;
+	Text vSyncText;
 
 	void Start()
 	{
-		soundText = SoundButton.GetComponentInChildren<Text>();
+		soundText = soundButton.GetComponentInChildren<Text>();
+		vSyncText = vSyncButton.GetComponentInChildren<Text>();
 
 		CheckIfNameIsSet();
 		InitializeButtons();
@@ -78,14 +84,25 @@ public class UI_MainMenuManager : MonoBehaviour
 		playButton.onClick.AddListener(LevelLoader.instance.LoadNextScene);
 		exitButton.onClick.AddListener(LevelLoader.instance.QuitApplication);
 
-		SoundButton.onClick.RemoveAllListeners();
-		SoundButton.onClick.AddListener(AudioManager.instance.ToggleSound);
-		SoundButton.onClick.AddListener(UpdateSoundText);
+		UpdateSoundText();
+		soundButton.onClick.RemoveAllListeners();
+		soundButton.onClick.AddListener(AudioManager.instance.ToggleSound);
+		soundButton.onClick.AddListener(UpdateSoundText);
+
+		UpdateVsyncText();
+		vSyncButton.onClick.RemoveAllListeners();
+		vSyncButton.onClick.AddListener(FPSChecker.instance.VSyncSwitch);
+		vSyncButton.onClick.AddListener(UpdateVsyncText);
 	}
 
 	void UpdateSoundText()
 	{
 		soundText.text = AudioManager.instance.IsMusicPlaying() ? soundON : soundOFF;
+	}
+
+	void UpdateVsyncText()
+	{
+		vSyncText.text = FPSChecker.instance.IsVSyncEnabled() ? vSyncON : vSyncOFF;
 	}
 
 	IEnumerator WiggleInputField()
