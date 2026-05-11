@@ -4,6 +4,7 @@ using System.IO;
 
 public class LineCounter
 {
+	/*
 	[MenuItem("Tools/Count C# Lines")]
 	static void CountLines()
 	{
@@ -17,4 +18,5 @@ public class LineCounter
 
 		Debug.Log($"Total C# Lines: {totalLines}");
 	}
+	*/
 }

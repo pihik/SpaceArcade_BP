@@ -55,6 +55,7 @@ public class UI_GameManager : MonoBehaviour
 		}
 
 		OnSceneChange();
+		GameManager.instance.ApplyGodModeToPlayer();
 
 		consoleInputField = consoleCanvas.GetComponentInChildren<TMP_InputField>();
 		if (!consoleInputField)
@@ -238,7 +239,7 @@ public class UI_GameManager : MonoBehaviour
 					if (bool.TryParse(args[1], out isImmortal))
 					{
 						Debug.Log("God mode " + (isImmortal ? "activated!" : "deactivated!"));
-						InGameHelper.instance.GetPlayer().GetAttributeComponent().SetIsImmortal(isImmortal);
+						GameManager.instance.SetGodMode(isImmortal);
 					}
 					else
 					{

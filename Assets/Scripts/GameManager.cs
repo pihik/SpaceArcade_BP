@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
 	int numberOfEnemies;
 	int scoreAmount = 0;
+	bool isGodModeEnabled = false;
 
 	void Start()
 	{
@@ -50,6 +51,27 @@ public class GameManager : MonoBehaviour
 	public int GetScore()
 	{
 		return scoreAmount;
+	}
+
+	public void SetGodMode(bool isEnabled)
+	{
+		isGodModeEnabled = isEnabled;
+		ApplyGodModeToPlayer();
+	}
+
+	public bool IsGodModeEnabled()
+	{
+		return isGodModeEnabled;
+	}
+
+	public void ApplyGodModeToPlayer()
+	{
+		if (!InGameHelper.instance || !InGameHelper.instance.GetPlayer())
+		{
+			return;
+		}
+
+		InGameHelper.instance.GetPlayer().GetAttributeComponent().SetIsImmortal(isGodModeEnabled);
 	}
 
 	public int GetPlayerMaxScore()

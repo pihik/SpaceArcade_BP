@@ -68,7 +68,7 @@ public class ScoreBoard : MonoBehaviour
 
 	string GetUniqueRandomName(HashSet<string> existingNames)
 	{
-		string[] randomNames = { "Jozef", "Ferko", "Dano", "Pato", "Adam", "Adrian", "Mato", "Denis", "Juro" };
+		string[] randomNames = { "Arlen", "Jace", "Selene", "Sylith", "Zoe Ramirez", "FrostPixel", "RogueComet", "Julian Hayes", "Draven" };
 
 		string newName;
 		do

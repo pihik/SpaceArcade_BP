@@ -140,7 +140,7 @@ public class Player : SpaceshipBase
 		}
 
 		disabledMovement = isAbandoned;
-		playersAttributeComponent.SetIsImmortal(isAbandoned);
+		playersAttributeComponent.SetIsImmortal(isAbandoned || GameManager.instance.IsGodModeEnabled());
 		HandleThrustAudio(false);
 	}
 
