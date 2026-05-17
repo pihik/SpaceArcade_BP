@@ -47,32 +47,36 @@ public class Gun : MonoBehaviour
 		}
 	}
 
-	IEnumerator ShootRoutine()
-	{
-		canShoot = false;
+    IEnumerator ShootRoutine()
+    {
+        canShoot = false;
 
-		Projectile projectile = shootingObjectPool.GetObjectFromPool();
-		projectile.SetInstigator(transform.parent.gameObject);
+        Projectile projectile = shootingObjectPool.GetObjectFromPool();
+        projectile.SetInstigator(transform.parent.gameObject);
 
-		if (projectile)
-		{
-			Vector3 positionOffset = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
+        if (projectile)
+        {
+            Vector3 positionOffset = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
 
-			projectile.transform.position = positionOffset;
-			projectile.transform.rotation = transform.rotation;
+            // 1. Teleport the projectile first
+            projectile.transform.position = positionOffset;
+            projectile.transform.rotation = transform.rotation;
 
-			PlayShootAudio();
-		}
+            // 2. Clear and start the trail now that it's at the correct position
+            projectile.ResetTrail();
 
-		yield return new WaitForSeconds(fireRate);
-		canShoot = true;
-	}
+            PlayShootAudio();
+        }
 
-	void PlayShootAudio()
+        yield return new WaitForSeconds(fireRate);
+        canShoot = true;
+    }
+
+    void PlayShootAudio()
 	{
 		if (shootSound)
 		{
-			AudioManager.instance.PlaySFX(shootSound);
+			AudioManager.instance.PlayShootSound(shootSound);
 		}
 	}
 

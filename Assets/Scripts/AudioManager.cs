@@ -32,7 +32,12 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] AudioClip explosionSFX;
 	[SerializeField] AudioClip asteroidDestructionSFX;
 
-	void OnEnable()
+    float asteroidDestroyCooldown = 0.07f;
+    float shootDestroyCooldown = 0.05f;
+    float lastAsteroidDestroyTime;
+    float lastshootDestroyTime;
+
+    void OnEnable()
 	{
 		LevelLoader.instance.OnLevelLoaded += PlayBackgroundAudio;
 	}
@@ -76,7 +81,7 @@ public class AudioManager : MonoBehaviour
 		backgroundAudioSource.Play();
 	}
 
-	public void PlaySFX(AudioClip clip)
+	private void PlaySFX(AudioClip clip)
 	{
 		if (clip == null) 
 		{ 
@@ -112,17 +117,36 @@ public class AudioManager : MonoBehaviour
 		return !backgroundAudioSource.mute && backgroundAudioSource.isPlaying;
 	}
 
+	public void PlayShootSound(AudioClip clip)
+	{
+        if (Time.time < lastshootDestroyTime + shootDestroyCooldown)
+        {
+            return;
+        }
+
+        lastshootDestroyTime = Time.time;
+
+        PlaySFX(clip);
+    }
+
 	public void PlayDestroySFX()
 	{
-		PlaySFX(explosionSFX);
+        PlaySFX(explosionSFX);
 	}
 
-	public void PlayAsteroidDestruction()
-	{
-		PlaySFX(asteroidDestructionSFX);
-	}
+    public void PlayAsteroidDestruction()
+    {
+        if (Time.time < lastAsteroidDestroyTime + asteroidDestroyCooldown)
+        {
+            return;
+        }
 
-	void OnDisable()
+        lastAsteroidDestroyTime = Time.time;
+
+        PlaySFX(asteroidDestructionSFX);
+    }
+
+    void OnDisable()
 	{
 		LevelLoader.instance.OnLevelLoaded -= PlayBackgroundAudio;
 	}

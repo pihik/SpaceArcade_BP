@@ -338,7 +338,7 @@ MonoBehaviour:
   minShootInterval: 2
   maxShootInterval: 6
   rotatingSpeed: 1
-  speed: 0.8
+  speed: 1
 --- !u!114 &8653929016563495279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,7 +361,8 @@ AudioSource:
   m_GameObject: {fileID: 710176696380514462}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1683540842698984116, guid: bfb28b32b07b9954291caba9ce02fd58,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: d76974c7ca9af9347ae8fa8604700575, type: 3}
   m_PlayOnAwake: 1

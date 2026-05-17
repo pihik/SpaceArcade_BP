@@ -7,7 +7,7 @@ public class Asteroid : MonoBehaviour
 	[Tooltip("Bigger number = bigger asteroid")]
 	[SerializeField, Range(1, 3)] int asteroidSize = 1;
 
-	[SerializeField] float selfDestructionTime = 100f;
+	//[SerializeField] float selfDestructionTime = 100f;
 
 	[SerializeField] ParticleSystem destroyEffect;
 
@@ -21,7 +21,7 @@ public class Asteroid : MonoBehaviour
 			nextObjectPool = InGameHelper.instance.GetAsteroidPool(asteroidSize - 2);
 		}
 
-		Invoke(nameof(Deactivate), selfDestructionTime);
+		//Invoke(nameof(Deactivate), selfDestructionTime);
 	}
 	
 	void OnTriggerEnter2D(Collider2D collision)
@@ -37,15 +37,16 @@ public class Asteroid : MonoBehaviour
 			}
 		}
 
-		if (!((InGameHelper.instance.GetShredderLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex))
+        if (!((InGameHelper.instance.GetShredderLayer() & 1 << collisionLayerIndex) == 1 << collisionLayerIndex))
 		{
 			if (asteroidSize > 1)
 			{
 				Scatter();
 			}
-		}
 
-		PlayDestroyClip();
+            PlayDestroyClip();
+        }
+
 		Deactivate();
 	}
 	

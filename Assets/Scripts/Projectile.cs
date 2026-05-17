@@ -4,69 +4,86 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] int damage = 1;
+    [SerializeField] float speed = 300f;
+    [SerializeField] float timeToDestroy = 1f;
 
-	[SerializeField] int damage = 1;
-	[SerializeField] float speed = 300f;
-	[SerializeField] float timeToDestroy = 1f;
+    Shoot_ObjectPool shootingObjectPool;
+    GameObject instigator;
+    TrailRenderer trail;
 
-	Shoot_ObjectPool shootingObjectPool;
-	GameObject instigator;
-	TrailRenderer trail;
+    void Awake()
+    {
+        trail = GetComponent<TrailRenderer>();
+    }
 
-	void Awake()
-	{
-		trail = GetComponent<TrailRenderer>();
-	}
+    private void OnEnable()
+    {
+        // Start fresh: disable emitting so it doesn't log the old position
+        if (trail != null)
+        {
+            trail.emitting = false;
+            trail.Clear();
+        }
 
-	void Start()
-	{
-		Invoke(nameof(Deactivate), timeToDestroy);
-	}
+        // Use Invoke instead of Start because Start only runs once in a prefab's lifecycle,
+        // whereas OnEnable runs every time it leaves the object pool.
+        Invoke(nameof(Deactivate), timeToDestroy);
+    }
 
-	void Update()
-	{
-		transform.Translate(Vector3.up * speed * Time.deltaTime);
-	}
+    // Call this AFTER moving the bullet to the gun tip
+    public void ResetTrail()
+    {
+        if (trail != null)
+        {
+            trail.Clear();
+            trail.emitting = true;
+        }
+    }
 
-	void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (collision.gameObject == instigator)
-		{
-			return;
-		}
+    void Update()
+    {
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
+    }
 
-		Deactivate();
-	}
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == instigator)
+        {
+            return;
+        }
 
-	void SelfDestruction()
-	{
-		Destroy(gameObject);
-	}
+        Deactivate();
+    }
 
-	void Deactivate()
-	{
-		trail.Clear();
-		CancelInvoke();
-		shootingObjectPool.ReturnObjectToPool(this);
-	}
+    void Deactivate()
+    {
+        if (trail != null)
+        {
+            trail.emitting = false;
+            trail.Clear();
+        }
+        CancelInvoke();
+        shootingObjectPool.ReturnObjectToPool(this);
+    }
 
-	public void SetObjectPool(Shoot_ObjectPool ObjectPoolComponent)
-	{
-		shootingObjectPool = ObjectPoolComponent;
-	}
+    public void SetObjectPool(Shoot_ObjectPool ObjectPoolComponent)
+    {
+        shootingObjectPool = ObjectPoolComponent;
+    }
 
-	public void SetInstigator(GameObject instigator)
-	{
-		this.instigator = instigator;
-	}
+    public void SetInstigator(GameObject instigator)
+    {
+        this.instigator = instigator;
+    }
 
-	public GameObject GetInstigator()
-	{
-		return instigator;
-	}
+    public GameObject GetInstigator()
+    {
+        return instigator;
+    }
 
-	public int GetDamage()
-	{
-		return damage;
-	}
+    public int GetDamage()
+    {
+        return damage;
+    }
 }

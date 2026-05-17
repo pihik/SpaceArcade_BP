@@ -3127,6 +3127,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4386,12 +4387,12 @@ MonoBehaviour:
   - {fileID: 1219872559}
   - {fileID: 364364942}
   - {fileID: 1755291399}
-  spawnLimit: 20
+  spawnLimit: 35
   spawnRoutineOnStart: 1
   spawnRandomObject: 1
   spawnOnRandomPoint: 0
-  minSpawnTime: 4
-  maxSpawnTime: 6
+  minSpawnTime: 3
+  maxSpawnTime: 5
 --- !u!1001 &1857690187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4965,6 +4966,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -5445,12 +5447,12 @@ PrefabInstance:
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: maxSpawnTime
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: minSpawnTime
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}

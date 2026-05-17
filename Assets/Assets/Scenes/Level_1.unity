@@ -130,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 536173862}
   - component: {fileID: 536173863}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BOTTOM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691386223}
   - component: {fileID: 691386224}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 724195735}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shredders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -857,7 +857,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718243749}
   - component: {fileID: 1718243750}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TOP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -935,7 +935,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743834587}
   - component: {fileID: 1743834588}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
