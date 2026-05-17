@@ -9,6 +9,8 @@ public class Asteroid : MonoBehaviour
 
 	[SerializeField] float selfDestructionTime = 100f;
 
+	[SerializeField] ParticleSystem destroyEffect;
+
 	Asteroid_ObjectPool objectPool;
 	Asteroid_ObjectPool nextObjectPool;
 
@@ -113,8 +115,32 @@ public class Asteroid : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	void PlayDestroyClip()
-	{
-		AudioManager.instance.PlayAsteroidDestruction();
-	}
+    void PlayDestroyClip()
+    {
+        AudioManager.instance.PlayAsteroidDestruction();
+
+        GameObject effectObj = Instantiate(
+            destroyEffect.gameObject,
+            transform.position,
+            Quaternion.identity
+        );
+
+        float multiplier = asteroidSize switch
+        {
+            1 => 0.6f,
+            2 => 1.2f,
+            3 => 2f,
+            _ => 1f
+        };
+
+        ParticleSystem[] systems = effectObj.GetComponentsInChildren<ParticleSystem>();
+
+        foreach (ParticleSystem ps in systems)
+        {
+            var main = ps.main;
+
+            main.startSizeMultiplier *= multiplier;
+            main.startSpeedMultiplier *= multiplier;
+        }
+    }
 }

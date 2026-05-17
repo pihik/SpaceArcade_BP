@@ -17,8 +17,8 @@ public class UI_MainMenuManager : MonoBehaviour
 
 	//******************************************** maybe add functionality for add new player and current player will be set to scoreboard ********************************************
 
-	string soundON = "SOUND <color=green>ON</color>";
-	string soundOFF = "SOUND <color=red>OFF</color>";
+	string soundON = "MUSIC <color=green>ON</color>";
+	string soundOFF = "MUSIC <color=red>OFF</color>";
 
 	string vSyncON = "VSYNC <color=green>ON</color>";
 	string vSyncOFF = "VSYNC <color=red>OFF</color>";
