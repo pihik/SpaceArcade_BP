@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreValue: 100
   minShootInterval: 2
-  maxShootInterval: 6
+  maxShootInterval: 5
   rotatingSpeed: 3
 --- !u!114 &6059884373098819036
 MonoBehaviour:

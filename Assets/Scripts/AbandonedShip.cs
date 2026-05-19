@@ -34,6 +34,11 @@ public class AbandonedShip : MonoBehaviour
         {
             if (collision.TryGetComponent<Player>(out Player player))
             {
+                if (player != InGameHelper.instance.GetPlayer())
+                {
+                    return;
+                }
+
                 oldPlayer = player;
                 //activate UI
                 NewShipActivation(); //only for testing .. destroy after

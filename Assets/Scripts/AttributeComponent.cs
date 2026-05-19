@@ -13,6 +13,7 @@ public class AttributeComponent : MonoBehaviour
 	SpriteRenderer spriteRenderer;
 
 	bool isImmortal = false;
+	bool zeroHealthTriggered = false;
 
 	void Awake()
 	{
@@ -27,7 +28,7 @@ public class AttributeComponent : MonoBehaviour
 
 	virtual protected void HealthDecrease(int amount, bool activateShield)
 	{
-		if (isImmortal)
+		if (isImmortal || zeroHealthTriggered)
 		{
 			return;
 		}
@@ -40,6 +41,7 @@ public class AttributeComponent : MonoBehaviour
 			if (healthAmount <= 0)
 			{
 				healthAmount = 0;
+				zeroHealthTriggered = true;
 				OnZeroHealth?.Invoke();
 
 				return;

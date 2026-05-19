@@ -34,8 +34,10 @@ public class AudioManager : MonoBehaviour
 
     float asteroidDestroyCooldown = 0.07f;
     float shootDestroyCooldown = 0.05f;
+    float destroyedCooldown = 0.05f;
     float lastAsteroidDestroyTime;
     float lastshootDestroyTime;
+    float lastDestroyedTime;
 
     void OnEnable()
 	{
@@ -130,7 +132,14 @@ public class AudioManager : MonoBehaviour
     }
 
 	public void PlayDestroySFX()
-	{
+    {
+        if (Time.time < lastDestroyedTime + destroyedCooldown)
+        {
+            return;
+        }
+
+        lastDestroyedTime = Time.time;
+
         PlaySFX(explosionSFX);
 	}
 

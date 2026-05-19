@@ -743,85 +743,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309689949}
   m_CullTransparentMesh: 0
---- !u!1 &322755680
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 322755681}
-  - component: {fileID: 322755683}
-  - component: {fileID: 322755682}
-  m_Layer: 5
-  m_Name: Scoretext
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &322755681
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322755680}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1944444550}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 150.3067, y: -364}
-  m_SizeDelta: {x: 1575.3866, y: 78.599976}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &322755682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322755680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 8f1bdbdcf7896fe488cbb6c199a73052, type: 3}
-    m_FontSize: 45
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 155
-    m_Alignment: 3
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'SCORE: '
---- !u!222 &322755683
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322755680}
-  m_CullTransparentMesh: 0
 --- !u!1 &323238179
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,14 +795,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texts:
-  - There is something in the fog, watch out!
+  - "Sensors are unstable... there\u2019s something inside the fog."
+  - Stay alert.
   - 
-  - It seems abandoned...
-  - This ship looks much better than ours. Come on board!
-  - Enemies incoming! It was a trap, prepare for attack
-  - There is a armored ship with a giant gun, watch out for that!
+  - Wait... that ship looks abandoned.
+  - Its technology is far more advanced than ours.
+  - Dock with it and investigate...
+  - Enemy fleet incoming!
+  - It was a trap! Defensive positions, now!
+  - Heavy armored warship detected ahead.
+  - Watch out for its main cannon!
   - 
-  - You did it! Nice work!
+  - Outstanding work. The path is clear.
 --- !u!114 &323238182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,8 +1525,8 @@ MonoBehaviour:
   spawnRoutineOnStart: 0
   spawnRandomObject: 1
   spawnOnRandomPoint: 0
-  minSpawnTime: 4
-  maxSpawnTime: 7
+  minSpawnTime: 3.5
+  maxSpawnTime: 6
 --- !u!1 &606581310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,6 +2653,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3168,6 +3094,7 @@ GameObject:
   m_IsActive: 1
 --- !u!212 &1164366545
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3186,6 +3113,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3207,9 +3136,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 08ecf4a25d050774aa7035c80c938357, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3219,7 +3150,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1164366546
 Transform:
@@ -4247,6 +4177,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4952,7 +4883,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 554243872}
-  - {fileID: 322755681}
   - {fileID: 261574027}
   - {fileID: 574702471}
   m_Father: {fileID: 1931748185}
@@ -5643,6 +5573,11 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnRoutineOnStart
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
+        type: 3}
+      propertyPath: asteroidSpeedMultiplier
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 5649776081420497881, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}

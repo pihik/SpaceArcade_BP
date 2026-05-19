@@ -117,6 +117,6 @@ public class AstronautHelper : MonoBehaviour
 
 	void OnDisable()
 	{
-		//GameManager.instance.OnEnemiesDestroyed -= ShowLastTexts;
+		GameManager.instance.OnEnemiesDestroyed -= ShowLastTexts;
 	}
 }

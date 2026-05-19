@@ -682,6 +682,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1651,6 +1652,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3621,7 +3623,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 978986170}
-  - {fileID: 1981898500}
   - {fileID: 1697011044}
   - {fileID: 463916959}
   m_Father: {fileID: 170772052}
@@ -3691,12 +3692,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texts:
-  - "There is it! We must destroy the enemies and defend our space station, or we
-    won\u2019t be able to terraform the new Earth!"
-  - Watch out, I can see massive enemy ship!
-  - We need to destroy it otherwise, we are done
+  - Visual confirmed... the enemy command fleet.
+  - If we fail here, our station will fall, and humanity will never reach the new
+    Earth.
+  - All remaining enemy forces are defending the sector...
+  - Massive hostile battleship detected!
+  - Its firepower is off the charts!
+  - We must destroy it before it reaches the station.
   - 
-  - You did it! We are save!
+  - Direct hit confirmed...
+  - Enemy flagship destroyed.
+  - The station is safe.
+  - Humanity survives because of you.
+  - Mission complete.
 --- !u!114 &1631120179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4093,85 +4101,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977493102}
-  m_CullTransparentMesh: 0
---- !u!1 &1981898499
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1981898500}
-  - component: {fileID: 1981898502}
-  - component: {fileID: 1981898501}
-  m_Layer: 5
-  m_Name: Scoretext
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1981898500
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981898499}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1587639040}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 150.3067, y: -364}
-  m_SizeDelta: {x: 1575.3866, y: 78.599976}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1981898501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981898499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 8f1bdbdcf7896fe488cbb6c199a73052, type: 3}
-    m_FontSize: 45
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 155
-    m_Alignment: 3
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'SCORE: '
---- !u!222 &1981898502
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981898499}
   m_CullTransparentMesh: 0
 --- !u!1 &1989278033
 GameObject:
@@ -4626,17 +4555,22 @@ PrefabInstance:
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: maxSpawnTime
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: minSpawnTime
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: spawnRoutineOnStart
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
+        type: 3}
+      propertyPath: asteroidSpeedMultiplier
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4528887875205874360, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
@@ -4696,7 +4630,7 @@ PrefabInstance:
     - target: {fileID: 6180088366835023366, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: spawnLimit
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6180088366835023366, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}

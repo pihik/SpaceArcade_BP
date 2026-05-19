@@ -338,7 +338,7 @@ MonoBehaviour:
   minShootInterval: 2
   maxShootInterval: 6
   rotatingSpeed: 1
-  speed: 1
+  speed: 1.2
 --- !u!114 &8653929016563495279
 MonoBehaviour:
   m_ObjectHideFlags: 0

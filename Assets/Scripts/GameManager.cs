@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
 	int numberOfEnemies;
 	int scoreAmount = 0;
 	bool isGodModeEnabled = false;
+	bool checkingEnemiesDestroyed = false;
+	bool enemiesDestroyedInvoked = false;
 
 	void Start()
 	{
@@ -89,17 +92,59 @@ public class GameManager : MonoBehaviour
 	public void SetNumberOfEnemies(int number)
 	{
 		numberOfEnemies = number;
+		checkingEnemiesDestroyed = false;
+		enemiesDestroyedInvoked = false;
 	}
 
 	public void DecreaseNumberOfEnemies()
 	{
 		numberOfEnemies--;
 		
-		if (numberOfEnemies < 0)
+		if (numberOfEnemies <= 0)
 		{
-			Debug.Log("All enemies destroyed!");
-			OnEnemiesDestroyed?.Invoke();
+			CheckEnemiesDestroyed();
 		}
+	}
+
+	void CheckEnemiesDestroyed()
+	{
+		if (checkingEnemiesDestroyed || enemiesDestroyedInvoked)
+		{
+			return;
+		}
+
+		checkingEnemiesDestroyed = true;
+		StartCoroutine(CheckEnemiesDestroyedAtEndOfFrame());
+	}
+
+	IEnumerator CheckEnemiesDestroyedAtEndOfFrame()
+	{
+		yield return null;
+
+		checkingEnemiesDestroyed = false;
+
+		if (numberOfEnemies > 0 || !EnemySpawnersDepleted() || FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length > 0)
+		{
+			yield break;
+		}
+
+		enemiesDestroyedInvoked = true;
+		Debug.Log("All enemies destroyed!");
+		StopSpawning?.Invoke(0);
+		OnEnemiesDestroyed?.Invoke();
+	}
+
+	bool EnemySpawnersDepleted()
+	{
+		foreach (EnemySpawner enemySpawner in FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None))
+		{
+			if (!enemySpawner.HasSpawnedAllObjects())
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	void SaveScoreToCurrentPlayer(int levelIndex)

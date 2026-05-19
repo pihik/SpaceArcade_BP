@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreValue: 50
   minShootInterval: 1
-  maxShootInterval: 3
+  maxShootInterval: 2.5
 --- !u!114 &3766207185221806
 MonoBehaviour:
   m_ObjectHideFlags: 0

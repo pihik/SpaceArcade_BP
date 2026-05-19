@@ -25,6 +25,11 @@ public class PlayersAttributeComponent : AttributeComponent
 
 	protected override void OnTriggerEnter2D(Collider2D collision)
 	{
+		if (collision.TryGetComponent<AbandonedShip>(out _))
+		{
+			return;
+		}
+
 		base.OnTriggerEnter2D(collision);
 
 		int collisionLayerIndex = collision.gameObject.layer;

@@ -40,7 +40,7 @@ public class Spawner : MonoBehaviour
 
 	virtual protected IEnumerator SpawnRoutine()
 	{
-		while (spawnedObjects <= spawnLimit)
+		while (spawnedObjects < spawnLimit)
 		{
 			Vector3 spawnPos = EnsureInScreenBounds(spawnPoints[GetSpawnIndex()].transform.position);
 			SpawnObject(spawningObjects[GetObjectIndex()], spawnPos);
@@ -48,6 +48,7 @@ public class Spawner : MonoBehaviour
 			yield return new WaitForSeconds(GetNextSpawnTime());
 		}
 
+		spawnRoutine = null;
 		OnSpawningObjectsDepleted();
 	}
 
@@ -98,11 +99,24 @@ public class Spawner : MonoBehaviour
 
 	protected void StopSpawning(float timeToPause)
 	{
+		if (timeToPause <= 0)
+		{
+			CancelInvoke(nameof(StartSpawning));
+			StopSpawning();
+			return;
+		}
+
 		Invoke(nameof(StopSpawning), timeToPause);
 	}
 
 	protected void StartSpawning(float timeToResume)
 	{
+		if (timeToResume <= 0)
+		{
+			StartSpawning();
+			return;
+		}
+
 		Invoke(nameof(StartSpawning), timeToResume);
 	}
 
@@ -114,14 +128,25 @@ public class Spawner : MonoBehaviour
 		}
 
 		StopCoroutine(spawnRoutine);
+		spawnRoutine = null;
 	}
 
 	protected void StartSpawning()
 	{
+		if (spawnRoutine != null || spawnedObjects >= spawnLimit)
+		{
+			return;
+		}
+
 		spawnRoutine = StartCoroutine(SpawnRoutine());
 	}
 
 	protected virtual void OnSpawningObjectsDepleted() { }
+
+	public bool HasSpawnedAllObjects()
+	{
+		return spawnedObjects >= spawnLimit;
+	}
 
 	Vector3 EnsureInScreenBounds(Vector3 worldPosition)
 	{
@@ -135,6 +160,8 @@ public class Spawner : MonoBehaviour
 
 	virtual protected void OnDisable()
 	{
+		CancelInvoke();
+
 		GameManager.instance.StartSpawning -= StartSpawning;
 		GameManager.instance.StopSpawning -= StopSpawning;
 	}

@@ -1821,6 +1821,47 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -78.7
       objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: texts.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[0]'
+      value: Emergency transmission received...
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[1]'
+      value: Alien forces have invaded our solar energy station.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[2]'
+      value: The station powers the entire colony. If it falls, humanity loses its
+        future.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[3]'
+      value: Civilians have been captured. Enemy ships are executing anyone who resists.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[4]'
+      value: Rescue the survivors. Eliminate all hostile forces.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[5]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6101322484049286494, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: 'texts.Array.data[6]'
+      value: Good work. Move to the next sector immediately.
+      objectReference: {fileID: 0}
     - target: {fileID: 6777315109818199700, guid: 7ee84fd33b32795438113cc3d0d72337,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1876,6 +1917,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1148908226}
+    - target: {fileID: 7828346113103299543, guid: 7ee84fd33b32795438113cc3d0d72337,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8979839358784762972, guid: 7ee84fd33b32795438113cc3d0d72337,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1907,7 +1953,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3277611572381194673, guid: 7ee84fd33b32795438113cc3d0d72337, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ee84fd33b32795438113cc3d0d72337, type: 3}
@@ -1927,7 +1974,7 @@ PrefabInstance:
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: minSpawnTime
-      value: 2
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 2124276408746893283, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
@@ -2012,7 +2059,7 @@ PrefabInstance:
     - target: {fileID: 6180088366835023366, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
       propertyPath: minSpawnTime
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6180088366835023366, guid: 45bc7dd214152c94cb116afd6d499e0b,
         type: 3}
